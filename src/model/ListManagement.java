@@ -10,7 +10,7 @@ public class ListManagement {
 	private int longitud;
 
 	public ListManagement(int row) {
-		List list = new List('A');
+		List list = new List(row, 'A');
 		firstList = list;
 		endFirstList = list;
 		lastList = list;
@@ -56,7 +56,7 @@ public class ListManagement {
 	}
 
 	public void add(int row, int column) {
-		List l = new List(row);
+		List l = new List(row, charColumn);
 		if (column > 1) {
 			endFirstList.setNextList(l);
 			l.setPrevList(endFirstList);
@@ -80,26 +80,75 @@ public class ListManagement {
 
 	}
 
-	private void showColumns(int column, List temp) {
+	private void showColumnsOdd(int column, List temp, int i) {
+	
 		if (column >= 1) {
-			System.out.print(temp.getContent());
+			System.out.print(temp.getContentLeft()+i+temp.getContentRight());
+			i++;
 			if (temp.getNextList() != null) {
 				temp = temp.getNextList();
-				showColumns(column--, temp);
+				showColumnsOdd(column=column-1, temp, i);
 			}
 		}
 	}
 	
-	public void showContent(int row, int column, List temp) {
-		if (row >= 1) {
-			showColumns(column, temp);
-			System.out.println();
-			if (temp.getDownList() != null) {
-				temp = temp.getDownList();
-				showContent(row--, column, temp);
+	private void showColumnsOddFinal(int column, List temp, int i) {
+		
+		if (column >= 1) {
+			if(column==1) {
+				System.out.print(temp.getContentLeft()+i+temp.getContentRight());
+			}else {
+				System.out.print(temp.getContentLeft()+i+temp.getContentRight());
+			}
+			i++;
+			if (temp.getNextList() != null) {
+				temp = temp.getNextList();
+				showColumnsOdd(column=column-1, temp, i);
 			}
 		}
 	}
-
+	
+	private void showColumnsEven(int column, List temp, int i) {
+		
+		if (column >= 1) {
+			System.out.print(temp.getContentLeft()+i+temp.getContentRight());
+			i--;
+			if (temp.getNextList() != null) {
+				temp = temp.getNextList();
+				showColumnsEven(column=column-1, temp, i);
+			}
+		}
+	}
+	
+	
+	public void showContent(int row, int column, List temp, int iteration) {
+		int odd = row%2;
+		if (row > 0) {
+			if(odd !=0) {
+				iteration= iteration-column+1;
+				if(row==1){
+					showColumnsOddFinal(column, temp, iteration);
+				}else {
+				showColumnsOdd(column, temp,iteration);
+				System.out.println();
+				}
+				if (temp.getDownList() != null) {
+					temp = temp.getDownList();
+					iteration=iteration-1;
+					showContent(row=row-1, column, temp, iteration);
+					}
+			}else {
+				showColumnsEven(column, temp,iteration);
+				System.out.println();
+				if (temp.getDownList() != null) {
+					temp = temp.getDownList();
+					iteration=iteration-column;
+					showContent(row=row-1, column, temp, iteration);
+				}
+			}
+		}
+	}
+	
+	
 }
 

@@ -6,7 +6,7 @@ public class User implements Serializable{
 
 	private static final long serialVersionUID = 1;
 	private String nickname;
-	private int score;
+	private int pos;
 	private int row;
 	private int column;
 	private int  movements;
@@ -15,9 +15,9 @@ public class User implements Serializable{
 	private User parent;
 	
 
-	public User(String nickname, int score, int row, int column, int movements) {
+	public User(String nickname, int pos, int row, int column, int movements) {
 		this.setNickname(nickname);
-		this.score = score;
+		this.setPos(pos);
 		this.row = row;
 		this.column = column;
 		this.movements = movements;
@@ -29,14 +29,6 @@ public class User implements Serializable{
 
 	public void setNickname(String nickname) {
 		this.nickname = nickname;
-	}
-
-	public int getScore() {
-		return score;
-	}
-
-	public void setScore(int score) {
-		this.score = score;
 	}
 
 	public int getRow() {
@@ -88,7 +80,15 @@ public class User implements Serializable{
 	}
 
 	public String getData() {
-		String n = nickname + " " + row + " " + column + " " + movements + " " + score;
+		String n = nickname + " " + row + " " + column + " " + movements + " " + pos;
 		return n;
+	}
+
+	public int getPos() {
+		return pos;
+	}
+
+	public void setPos(int pos) {
+		this.pos = pos;
 	}
 }

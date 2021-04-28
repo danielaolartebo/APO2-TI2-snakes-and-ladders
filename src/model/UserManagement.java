@@ -11,36 +11,26 @@ import java.io.FileNotFoundException;
 public class UserManagement {
 	private User root;
 	private int positions;
-	public static final String POSITIONS_PATH = "data/ranking.jmpc";
+	//public static final String POSITIONS_PATH = "data/ranking.jmpc";
 
-	public UserManagement() throws FileNotFoundException, IOException, ClassNotFoundException {
-		File f = new File(POSITIONS_PATH);
-		if (f.exists()) {
-			ObjectInputStream ois = new ObjectInputStream(new FileInputStream(f));
-			root = (User) ois.readObject();
-			positions = 0;
-			ois.close();
-		} else {
-			root = null;
-			positions = 0;
-		}
+	public UserManagement(){
+		
 	}
 
-	public void addUser(User user) throws FileNotFoundException, IOException {
+	public void addUser(String nickname, int pos, int row, int column, int movements){
+		User newUser = new User(nickname, pos, row, column, movements);
 		if (root == null) {
-			root = user;
-			saveRoot();
+			root = newUser;
 		} else {
-			addUser(root, user);
+			addUser(root, newUser);
 		}
 	}
 	
-	private void addUser(User current, User u) throws FileNotFoundException, IOException {
-		if (current.getScore() >= u.getScore()) {
+	private void addUser(User current, User u) {
+		if (current.getPos() >= u.getPos()) {
 			if (current.getLeft() == null) {
 				current.setLeft(u);
 				u.setParent(current);
-				saveRoot();
 			} else {
 				addUser(current.getLeft(), u);
 			}
@@ -48,13 +38,26 @@ public class UserManagement {
 			if (current.getRight() == null) {
 				current.setRight(u);
 				u.setParent(current);
-				saveRoot();
 			} else {
 				addUser(current.getRight(), u);
 			}
 		}
 	}
-
+	
+	public User searchUser(int pos) {
+		return searchUser(root, pos);
+	}
+	
+	public User searchUser(User current, int pos) {
+		if(current ==null || current.getPos()==pos) {
+			return current;
+		}else if(current.getPos()<pos){
+			return searchUser(current.getRight(), pos);
+		}else {
+			return searchUser(current.getLeft(),pos);
+		}
+	}
+	
 	public void inOrder(User x) {
 		if (x != null) {
 			inOrder(x.getRight());
@@ -73,10 +76,10 @@ public class UserManagement {
 		positions = 0;
 	}
 
-	private void saveRoot() throws FileNotFoundException, IOException {
+	/*private void saveRoot() throws FileNotFoundException, IOException {
 		ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(POSITIONS_PATH));
 		oos.writeObject(root);
 		oos.close();
-	}
+	}*/
 }
 
