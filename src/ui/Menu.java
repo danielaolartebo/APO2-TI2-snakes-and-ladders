@@ -61,14 +61,29 @@ public class Menu {
 		String[] data = br.readLine().split(" ");
 		int iteration = Integer.parseInt(data[0]) * Integer.parseInt(data[1]);
 		if (Integer.parseInt(data[0]) > 0 && Integer.parseInt(data[1]) <= iteration) {
-		/*	createList(Integer.parseInt(data[0]), Integer.parseInt(data[1]), countRows);
-			putSnakes(Integer.parseInt(data[2]));
+			createList(Integer.parseInt(data[0]), Integer.parseInt(data[1]), countRows);
+		/*	putSnakes(Integer.parseInt(data[2]));
 			putLadders(Integer.parseInt(data[3]));
 			countSnakes = Integer.parseInt(data[2]);
 			countLadders = Integer.parseInt(data[3]);  */
 			int score = ((Integer.parseInt(data[0]) * Integer.parseInt(data[1])) * countMovements);
 			user = new User(data[0], score, Integer.parseInt(data[1]), Integer.parseInt(data[2]), Integer.parseInt(data[3]));
 			square.showContent(Integer.parseInt(data[0]), Integer.parseInt(data[1]), square.getFirstList());
+		}
+	}
+	
+	private void createList(int row, int column, int countRows) {
+		if (countRows == 1) {
+			square.add(countRows, column);
+			createList(row, column, countRows + 1);
+		} else if (countRows <= row && countRows > 1) {
+			ListManagement temp = new ListManagement(countRows);
+			temp.add(countRows, column);
+		//	linkWithOtherList(temporal.getFirstList(), temp.getFirstList());
+			temporal = temp;
+			square.setLastList(temp.getFirstList());
+			square.setEndLastList(temp.getEndFirstList());
+			createList(row, column, countRows + 1);
 		}
 	}
 }
