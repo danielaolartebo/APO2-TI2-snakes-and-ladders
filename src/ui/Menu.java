@@ -60,15 +60,24 @@ public class Menu {
 		System.out.println("INSERT ROW|COLUMNS|NUMBER SNAKES|NUMBER OF LADDERS|NUMBER OF PLAYERS|NAME OF PLAYERS");
 		String[] data = br.readLine().split(" ");
 		int iteration = Integer.parseInt(data[0]) * Integer.parseInt(data[1]);
+<<<<<<< HEAD
 		if (Integer.parseInt(data[0]) > 0 && Integer.parseInt(data[1]) <= iteration) {
 			createList(Integer.parseInt(data[0]), Integer.parseInt(data[1]), countRows);
 		/*	putSnakes(Integer.parseInt(data[2]));
+=======
+		if (Integer.parseInt(data[1]) <= 26 && Integer.parseInt(data[2]) <= iteration && Integer.parseInt(data[3]) <= iteration) {
+			createList(Integer.parseInt(data[0]), Integer.parseInt(data[1]), countRows);
+			/*	putSnakes(Integer.parseInt(data[2]));
+>>>>>>> b10757976d74d1055c3282d8671666682aba53a0
 			putLadders(Integer.parseInt(data[3]));
 			countSnakes = Integer.parseInt(data[2]);
 			countLadders = Integer.parseInt(data[3]);  */
 			int score = ((Integer.parseInt(data[0]) * Integer.parseInt(data[1])) * countMovements);
-			user = new User(data[0], score, Integer.parseInt(data[1]), Integer.parseInt(data[2]), Integer.parseInt(data[3]));
-			square.showContent(Integer.parseInt(data[0]), Integer.parseInt(data[1]), square.getFirstList());
+			createUser(data[5], Integer.parseInt(data[4]), Integer.parseInt(data[0]), Integer.parseInt(data[1]));
+			for(int i=0; i<Integer.parseInt(data[4]); i++) {
+				System.out.println(user.getNickname().charAt(i));
+			}
+			square.showContent(Integer.parseInt(data[0]), Integer.parseInt(data[1]), square.getFirstList(), iteration);
 		}
 	}
 	
@@ -79,11 +88,44 @@ public class Menu {
 		} else if (countRows <= row && countRows > 1) {
 			ListManagement temp = new ListManagement(countRows);
 			temp.add(countRows, column);
+<<<<<<< HEAD
 		//	linkWithOtherList(temporal.getFirstList(), temp.getFirstList());
+=======
+			linkWithOtherList(temporal.getFirstList(), temp.getFirstList());
+>>>>>>> b10757976d74d1055c3282d8671666682aba53a0
 			temporal = temp;
 			square.setLastList(temp.getFirstList());
 			square.setEndLastList(temp.getEndFirstList());
 			createList(row, column, countRows + 1);
 		}
 	}
+<<<<<<< HEAD
 }
+=======
+	
+	
+	private void linkWithOtherList(List list, List otherList) {
+		if (list != null && otherList != null) {
+			list.setDownList(otherList);
+			otherList.setUpList(list);
+			linkWithOtherList(list.getNextList(), otherList.getNextList());
+		}
+	}
+	
+	
+	public void createUser(String player,int amountPlayer, int rows, int columns){
+		String[] name = player.split("");
+		if(amountPlayer>=1) {
+			table.addUser(name[amountPlayer-1], amountPlayer, rows, columns, countMovements);
+			createUser(player, amountPlayer=amountPlayer-1, rows,columns);
+		}
+	}
+	
+	
+}
+	
+	
+
+
+	
+>>>>>>> b10757976d74d1055c3282d8671666682aba53a0

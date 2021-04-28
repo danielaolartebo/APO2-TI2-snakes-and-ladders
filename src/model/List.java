@@ -6,18 +6,21 @@ public class List {
 	private char ladders;
 	private char column;
 	private int row;
-	private String content;
+	private String contentLeft;
+	private String contentRight;
 	private boolean found;
 	private List prevList;
 	private List nextList;
 	private List downList;
 	private List upList;
 
-	public List(int row) {
+	public List(int row, char charColumn) {
+		this.column= charColumn;
 		this.row = row;
 		snakes = ' ';
 		ladders = ' ';
-		setContent("[ ]");
+		contentLeft = "[";
+		contentRight="]";
 	}
 
 	public char getColumn() {
@@ -84,12 +87,20 @@ public class List {
 		this.ladders = ladders;
 	}
 
-	public String getContent() {
-		return content;
+	public String getContentLeft() {
+		return contentLeft;
 	}
 
-	public void setContent(String content) {
-		this.content = content;
+	public void setContentLeft(String contentLeft) {
+		this.contentLeft = contentLeft;
+	}
+	
+	public String getContentRight() {
+		return contentRight;
+	}
+	
+	public void setContentRight(String contentRight) {
+		this.contentRight = contentRight;
 	}
 
 	public boolean getFound() {
