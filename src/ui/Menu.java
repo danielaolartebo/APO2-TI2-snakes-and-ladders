@@ -60,15 +60,13 @@ public class Menu {
 		System.out.println("INSERT ROW|COLUMNS|NUMBER SNAKES|NUMBER OF LADDERS|NUMBER OF PLAYERS|NAME OF PLAYERS");
 		String[] data = br.readLine().split(" ");
 		int iteration = Integer.parseInt(data[0]) * Integer.parseInt(data[1]);
-<<<<<<< HEAD
+		
 		if (Integer.parseInt(data[0]) > 0 && Integer.parseInt(data[1]) <= iteration) {
 			createList(Integer.parseInt(data[0]), Integer.parseInt(data[1]), countRows);
 		/*	putSnakes(Integer.parseInt(data[2]));
-=======
 		if (Integer.parseInt(data[1]) <= 26 && Integer.parseInt(data[2]) <= iteration && Integer.parseInt(data[3]) <= iteration) {
 			createList(Integer.parseInt(data[0]), Integer.parseInt(data[1]), countRows);
 			/*	putSnakes(Integer.parseInt(data[2]));
->>>>>>> b10757976d74d1055c3282d8671666682aba53a0
 			putLadders(Integer.parseInt(data[3]));
 			countSnakes = Integer.parseInt(data[2]);
 			countLadders = Integer.parseInt(data[3]);  */
@@ -88,21 +86,15 @@ public class Menu {
 		} else if (countRows <= row && countRows > 1) {
 			ListManagement temp = new ListManagement(countRows);
 			temp.add(countRows, column);
-<<<<<<< HEAD
 		//	linkWithOtherList(temporal.getFirstList(), temp.getFirstList());
-=======
+
 			linkWithOtherList(temporal.getFirstList(), temp.getFirstList());
->>>>>>> b10757976d74d1055c3282d8671666682aba53a0
 			temporal = temp;
 			square.setLastList(temp.getFirstList());
 			square.setEndLastList(temp.getEndFirstList());
 			createList(row, column, countRows + 1);
 		}
 	}
-<<<<<<< HEAD
-}
-=======
-	
 	
 	private void linkWithOtherList(List list, List otherList) {
 		if (list != null && otherList != null) {
@@ -124,8 +116,3 @@ public class Menu {
 	
 }
 	
-	
-
-
-	
->>>>>>> b10757976d74d1055c3282d8671666682aba53a0
