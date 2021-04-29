@@ -18,4 +18,4 @@ In that sense of ideas, when a player lands on a top of a snake, their playing p
 
 The first player that reaches the highest space on the board, wins the game and the program will show the name or nickname of the winner as well as its score. 
 
-In addition, you can find all documentation of this game here.
+In addition, you can find all documentation of this game [here](https://github.com/danielaolarte123/TI2-snakes-and-ladders/tree/main/docs).
