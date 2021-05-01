@@ -1,44 +1,28 @@
 package ui;
 
-import model.*;
-import java.util.Random;
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.Random;
+
+import model.ListManagement;
 
 public class Menu {
-
 	static BufferedReader br;
-	static final int PLAY = 1;
-	static final int SHOW_POSITIONS = 2;
-	static final int EXIT = 3;
-	static int countRows = 1;
-	static int countMovements = 1;
-	static int countSnakes;
-	static int countLadders;
-	private User user;
-	private UserManagement table;
 	static final String principalMenu = "WELCOME TO SNAKES AND LADDERS GAME \n1:PLAY \n2:TABLE OF POSITIONS \n3:EXIT";
-	private ListManagement square;
-	private ListManagement temporal;
-
-	public Menu() throws FileNotFoundException, ClassNotFoundException, IOException {
-		table = new UserManagement();
-	}
-
+	private ListManagement listM;
+	
+	
 	public void showMenu() throws IOException {
 		br = new BufferedReader(new InputStreamReader(System.in));
-		square = new ListManagement(1);
-		temporal = square;
 		System.out.println(principalMenu);
 		int option = Integer.parseInt(br.readLine());
 		switch (option) {
-		case PLAY:
+		case 1:
 			creationTable();
 		//	playOption(countSnakes, countLadders);
 			break;
-		case SHOW_POSITIONS:
+		case 2:
 			System.out.println();
 			System.out.println("PLAYER|DICE QUANTITY");
 		//	table.inOrder(table.getRoot());
@@ -47,7 +31,7 @@ public class Menu {
 			showMenu();
 			break;
 
-		case EXIT:
+		case 3:
 			System.out.println("THANKS FOR PLAY, SEE YOU LATER");
 			break;
 		default:
@@ -55,62 +39,149 @@ public class Menu {
 			showMenu();
 		}
 	}
-
+	
 	private void creationTable() throws IOException{
 		System.out.println("INSERT ROW|COLUMNS|NUMBER SNAKES|NUMBER OF LADDERS|NUMBER OF PLAYERS|NAME OF PLAYERS");
 		String[] data = br.readLine().split(" ");
 		int iteration = Integer.parseInt(data[0]) * Integer.parseInt(data[1]);
+		listM = new ListManagement();
 		if (Integer.parseInt(data[1]) <= 26 && Integer.parseInt(data[2]) <= iteration && Integer.parseInt(data[3]) <= iteration) {
-			createList(Integer.parseInt(data[0]), Integer.parseInt(data[1]), countRows);
-			/*	putSnakes(Integer.parseInt(data[2]));
-			putLadders(Integer.parseInt(data[3]));
-			countSnakes = Integer.parseInt(data[2]);
-			countLadders = Integer.parseInt(data[3]);  */
-			int score = ((Integer.parseInt(data[0]) * Integer.parseInt(data[1])) * countMovements);
-			createUser(data[5], Integer.parseInt(data[4]), Integer.parseInt(data[0]), Integer.parseInt(data[1]));
-			for(int i=0; i<Integer.parseInt(data[4]); i++) {
-				System.out.println(user.getNickname().charAt(i));
+			createList(iteration);
+			assignPlayers(data[5]);
+			putLaddersDown(Integer.parseInt(data[0]), Integer.parseInt(data[1]), Integer.parseInt(data[3]), 49);
+			putLaddersUp(Integer.parseInt(data[0]), Integer.parseInt(data[1]), Integer.parseInt(data[3]), 49);
+			putSnakesDown(Integer.parseInt(data[0]), Integer.parseInt(data[1]), Integer.parseInt(data[2]), 65);
+			putSnakesUp(Integer.parseInt(data[0]), Integer.parseInt(data[1]), Integer.parseInt(data[2]), 65);
+			createUser(data[5], Integer.parseInt(data[4])-1);
+			playGame();
+			continuePlaying(0, Integer.parseInt(data[4]));
+			
+			
+		}
+	}
+	
+	private void createList(int iteration) {
+		if(iteration>= 1) {	
+			listM.addList(iteration);
+			iteration=iteration-1;
+			createList(iteration);
+		}
+	}
+	
+	private void assignPlayers(String players) {
+		listM.assignPlayer(players);
+	}
+	
+	private void putLaddersDown(int rows, int columns, int ladders, int type) {
+		
+		if(ladders>0) {
+			Random random = new Random();
+			int total = rows*columns;
+			int part_1= total/2;
+			int posDown = 2+random.nextInt(part_1+1);
+		
+			if(listM.checkLadder(listM.searchList(posDown))) {
+				char ladder_down = (char)(type);
+				listM.putLadder(ladder_down, listM.searchList(posDown));
+			
+				putLaddersDown(rows, columns, ladders=ladders-1, type=type+1);
+			}else {
+				putLaddersDown(rows, columns, ladders, type);
+			}		
+		}
+	}
+	
+	private void putLaddersUp(int rows, int columns, int ladders, int type) {
+		
+		if(ladders>0) {
+			Random random = new Random();
+			int total = rows*columns;
+			int part_1= (total/2)+1;
+			int posUp = random.nextInt(total-1)+part_1;
+			System.out.println(posUp);
+			if(listM.checkLadder(listM.searchList(posUp))) {
+				char ladder_up = (char)(type);
+				listM.putLadder(ladder_up, listM.searchList(posUp));
+				
+				putLaddersUp(rows, columns, ladders=ladders-1, type=type+1);
+			}else {
+				putLaddersUp(rows, columns, ladders, type);
 			}
-			square.showContent(Integer.parseInt(data[0]), Integer.parseInt(data[1]), square.getFirstList(), iteration);
 		}
 	}
 	
-	private void createList(int row, int column, int countRows) {
-		if (countRows == 1) {
-			square.add(countRows, column);
-			createList(row, column, countRows + 1);
-		} else if (countRows <= row && countRows > 1) {
-			ListManagement temp = new ListManagement(countRows);
-			temp.add(countRows, column);
-			linkWithOtherList(temporal.getFirstList(), temp.getFirstList());
-			temporal = temp;
-			square.setLastList(temp.getFirstList());
-			square.setEndLastList(temp.getEndFirstList());
-			createList(row, column, countRows + 1);
+	private void putSnakesDown(int rows, int columns, int snakes, int type) {
+		
+		if(snakes>0) {
+			Random random = new Random();
+			int total = rows*columns;
+			int part_1= total/2;
+			int posDown = 2+random.nextInt(part_1+1);
+		
+			if(listM.checkLadder(listM.searchList(posDown)) && listM.checkSnake(listM.searchList(posDown))) {
+				char snake_down = (char)(type);
+				listM.putSnake(snake_down, listM.searchList(posDown));
+				
+				putSnakesDown(rows, columns, snakes=snakes-1, type=type+1);
+			}else {
+				putSnakesDown(rows, columns, snakes, type);
+			}
+			
 		}
 	}
 	
-	
-	private void linkWithOtherList(List list, List otherList) {
-		if (list != null && otherList != null) {
-			list.setDownList(otherList);
-			otherList.setUpList(list);
-			linkWithOtherList(list.getNextList(), otherList.getNextList());
+	private void putSnakesUp(int rows, int columns, int snakes, int type) {
+		
+		if(snakes>0) {
+			Random random = new Random();
+			int total = rows*columns;
+			int part_1= total/2;
+			int posUp = random.nextInt(total-1)+part_1;
+			
+			System.out.println(posUp);
+			if(listM.checkLadder(listM.searchList(posUp)) && listM.checkSnake(listM.searchList(posUp))) {
+				char snake_down = (char)(type);
+				listM.putSnake(snake_down, listM.searchList(posUp));
+				putSnakesUp(rows, columns, snakes=snakes-1, type=type+1);
+			}else {
+				putSnakesUp(rows, columns, snakes, type);
+			}	
 		}
 	}
 	
-	
-	public void createUser(String player,int amountPlayer, int rows, int columns){
-		String[] name = player.split("");
-		if(amountPlayer>=1) {
-			table.addUser(name[amountPlayer-1], amountPlayer, rows, columns, countMovements);
-			createUser(player, amountPlayer=amountPlayer-1, rows,columns);
+	private void createUser(String users, int amountUser) {
+		if(amountUser>=0){
+			listM.addPlayer(users.charAt(amountUser), amountUser);
+			amountUser=amountUser-1;
+			createUser(users, amountUser);
 		}
 	}
 	
+	public void playGame() throws IOException {
+		String starting = br.readLine();
+		if(starting.isEmpty()) {
+			
+			
+			
+		}
+	}
+	
+	public void continuePlaying(int turn, int amountPlayers) throws IOException {
+		
+		if(turn<amountPlayers) {
+			String next =br.readLine();
+			if(next.isEmpty()) {
+				char player = listM.searchUser(turn).getPlayer();		
+				Random rdm = new Random();
+				int dice = 1+rdm.nextInt(7);
+				System.out.println(" El jugador "+player+" ha lanzado el dado y obtuvo el puntaje "+dice);
+				continuePlaying(turn=turn+1, amountPlayers);
+			}
+		}
+	}
 	
 }
-	
+
 	
 
 

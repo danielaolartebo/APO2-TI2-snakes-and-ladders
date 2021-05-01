@@ -1,94 +1,47 @@
 package model;
 
-import java.io.Serializable;
+public class User {
 
-public class User implements Serializable{
-
-	private static final long serialVersionUID = 1;
-	private String nickname;
-	private int pos;
-	private int row;
-	private int column;
-	private int  movements;
-	private User left;
-	private User right;
-	private User parent;
+	private char player;
+	private int order;
+	private int moves;
+	private User nextUser;
 	
-
-	public User(String nickname, int pos, int row, int column, int movements) {
-		this.setNickname(nickname);
-		this.setPos(pos);
-		this.row = row;
-		this.column = column;
-		this.movements = movements;
+	public User(char p, int o) {
+		this.player=p;
+		this.order=o;
 	}
 
-	public String getNickname() {
-		return nickname;
+	public char getPlayer() {
+		return player;
 	}
 
-	public void setNickname(String nickname) {
-		this.nickname = nickname;
+	public void setPlayer(char player) {
+		this.player = player;
 	}
 
-	public int getRow() {
-		return row;
+	public User getNextUser() {
+		return nextUser;
 	}
 
-	public void setRow(int row) {
-		this.row = row;
+	public void setNextUser(User nextUser) {
+		this.nextUser = nextUser;
 	}
 
-	public int getColumn() {
-		return column;
+	public int getOrder() {
+		return order;
 	}
 
-	public void setColumn(int column) {
-		this.column = column;
+	public void setOrder(int order) {
+		this.order = order;
 	}
 
-	public int getMovements() {
-		return movements;
+	public int getMoves() {
+		return moves;
 	}
 
-	public void setMirror(int movements) {
-		this.movements = movements;
-	}
-
-	public User getLeft() {
-		return left;
-	}
-
-	public void setLeft(User left) {
-		this.left = left;
-	}
-
-	public User getRight() {
-		return right;
-	}
-
-	public void setRight(User right) {
-		this.right = right;
-	}
-
-	public User getParent() {
-		return parent;
+	public void setMoves(int moves) {
+		this.moves = moves;
 	}
 	
-	public void setParent(User parent) {
-		this.parent = parent;
-	}
-
-	public String getData() {
-		String n = nickname + " " + row + " " + column + " " + movements + " " + pos;
-		return n;
-	}
-
-	public int getPos() {
-		return pos;
-	}
-
-	public void setPos(int pos) {
-		this.pos = pos;
-	}
 }

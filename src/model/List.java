@@ -1,74 +1,21 @@
 package model;
 
 public class List {
-
 	private char snakes;
 	private char ladders;
-	private char column;
-	private int row;
+	private int rowXcolumn;
 	private String contentLeft;
 	private String contentRight;
-	private boolean found;
-	private List prevList;
+	private String players;
+	private User user;
+	//private List prevList;
 	private List nextList;
-	private List downList;
-	private List upList;
+	private List p;
 
-	public List(int row, char charColumn) {
-		this.column= charColumn;
-		this.row = row;
-		snakes = ' ';
-		ladders = ' ';
+	public List(int rowAndColumn) {
+		this.rowXcolumn= rowAndColumn;
 		contentLeft = "[";
 		contentRight="]";
-	}
-
-	public char getColumn() {
-		return column;
-	}
-	
-	public void setColumn(char column) {
-		this.column = column;
-	}
-
-	public int getRow() {
-		return row;
-	}
-
-	public void setRow(int row) {
-		this.row = row;
-	}
-	
-	public List getPrevList() {
-		return prevList;
-	}
-
-	public void setPrevList(List prevList) {
-		this.prevList = prevList;
-	}
-
-	public List getNextList() {
-		return nextList;
-	}
-	
-	public void setNextList(List nextList) {
-		this.nextList = nextList;
-	}
-
-	public List getDownList() {
-		return downList;
-	}
-
-	public void setDownList(List downList) {
-		this.downList = downList;
-	}
-
-	public List getUpList() {
-		return upList;
-	}
-
-	public void setUpList(List upList) {
-		this.upList = upList;
 	}
 
 	public char getSnakes() {
@@ -78,13 +25,21 @@ public class List {
 	public void setSnakes(char snakes) {
 		this.snakes = snakes;
 	}
-	
+
 	public char getLadders() {
 		return ladders;
 	}
 
 	public void setLadders(char ladders) {
 		this.ladders = ladders;
+	}
+
+	public int getRowXcolumn() {
+		return rowXcolumn;
+	}
+
+	public void setRowXcolumn(int rowAndColumn) {
+		this.rowXcolumn = rowAndColumn;
 	}
 
 	public String getContentLeft() {
@@ -94,21 +49,54 @@ public class List {
 	public void setContentLeft(String contentLeft) {
 		this.contentLeft = contentLeft;
 	}
-	
+
 	public String getContentRight() {
 		return contentRight;
 	}
-	
+
 	public void setContentRight(String contentRight) {
 		this.contentRight = contentRight;
 	}
 
-	public boolean getFound() {
-		return found;
+	/*public List getPrevList() {
+		return prevList;
 	}
 
-	public void setFound(boolean found) {
-		this.found = found;
+	public void setPrevList(List prevList) {
+		this.prevList = prevList;
+	}*/
+
+	public List getNextList() {
+		return nextList;
 	}
 
+	public void setNextList(List nextList) {
+		this.nextList = nextList;
+	}
+	
+	public List getParent() {
+		return p;
+	}
+	
+	public void setParent(List parent) {
+		this.p=parent;
+	}
+
+	public String getPlayers() {
+		return players;
+	}
+
+	public void setPlayers(String players) {
+		this.players = players;
+	}
+
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
+	
 }
+	
