@@ -44,7 +44,10 @@ public class Menu {
 		System.out.println("INSERT ROW|COLUMNS|NUMBER SNAKES|NUMBER OF LADDERS|NUMBER OF PLAYERS|NAME OF PLAYERS");
 		String[] data = br.readLine().split(" ");
 		int iteration = Integer.parseInt(data[0]) * Integer.parseInt(data[1]);
+
 		listM = new ListManagement();
+		
+
 		if (Integer.parseInt(data[1]) <= 26 && Integer.parseInt(data[2]) <= iteration && Integer.parseInt(data[3]) <= iteration) {
 			createList(iteration);
 			assignPlayers(data[5]);
@@ -60,6 +63,7 @@ public class Menu {
 		}
 	}
 	
+
 	private void createList(int iteration) {
 		if(iteration>= 1) {	
 			listM.addList(iteration);
@@ -90,6 +94,7 @@ public class Menu {
 			}		
 		}
 	}
+	
 	
 	private void putLaddersUp(int rows, int columns, int ladders, int type) {
 		
@@ -157,6 +162,7 @@ public class Menu {
 		}
 	}
 	
+
 	public void playGame() throws IOException {
 		String starting = br.readLine();
 		if(starting.isEmpty()) {
@@ -182,7 +188,4 @@ public class Menu {
 	
 }
 
-	
 
-
-	
