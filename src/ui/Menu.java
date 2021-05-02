@@ -50,13 +50,14 @@ public class Menu {
 
 		if (Integer.parseInt(data[1]) <= 26 && Integer.parseInt(data[2]) <= iteration && Integer.parseInt(data[3]) <= iteration) {
 			createList(iteration);
-			assignPlayers(data[5]);
+			assignPlayers(iteration, data[5]);
 			putLaddersDown(Integer.parseInt(data[0]), Integer.parseInt(data[1]), Integer.parseInt(data[3]), 49);
 			putLaddersUp(Integer.parseInt(data[0]), Integer.parseInt(data[1]), Integer.parseInt(data[3]), 49);
 			putSnakesDown(Integer.parseInt(data[0]), Integer.parseInt(data[1]), Integer.parseInt(data[2]), 65);
 			putSnakesUp(Integer.parseInt(data[0]), Integer.parseInt(data[1]), Integer.parseInt(data[2]), 65);
 			createUser(data[5], Integer.parseInt(data[4])-1);
 			playGame();
+			listM.show();
 			continuePlaying(0, Integer.parseInt(data[4]));
 			
 			
@@ -72,7 +73,8 @@ public class Menu {
 		}
 	}
 	
-	private void assignPlayers(String players) {
+	private void assignPlayers(int i, String players) {
+		listM.assignSpaces(i);
 		listM.assignPlayer(players);
 	}
 	
@@ -102,7 +104,7 @@ public class Menu {
 			Random random = new Random();
 			int total = rows*columns;
 			int part_1= (total/2)+1;
-			int posUp = random.nextInt(total-1)+part_1;
+			int posUp =(int) (random.nextDouble()*total+part_1);
 			System.out.println(posUp);
 			if(listM.checkLadder(listM.searchList(posUp))) {
 				char ladder_up = (char)(type);
@@ -140,8 +142,8 @@ public class Menu {
 		if(snakes>0) {
 			Random random = new Random();
 			int total = rows*columns;
-			int part_1= total/2;
-			int posUp = random.nextInt(total-1)+part_1;
+			int part_1= (total/2)+1;
+			int posUp = (int)(random.nextDouble()*total+part_1);
 			
 			System.out.println(posUp);
 			if(listM.checkLadder(listM.searchList(posUp)) && listM.checkSnake(listM.searchList(posUp))) {
@@ -179,8 +181,10 @@ public class Menu {
 			if(next.isEmpty()) {
 				char player = listM.searchUser(turn).getPlayer();		
 				Random rdm = new Random();
-				int dice = 1+rdm.nextInt(7);
+				int dice = 1+rdm.nextInt(6);
 				System.out.println(" El jugador "+player+" ha lanzado el dado y obtuvo el puntaje "+dice);
+				listM.movePlayers(player, turn, dice);
+				listM.show();
 				continuePlaying(turn=turn+1, amountPlayers);
 			}
 		}

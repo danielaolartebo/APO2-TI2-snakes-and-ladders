@@ -7,7 +7,6 @@ public class List {
 	private String contentLeft;
 	private String contentRight;
 	private String players;
-	private User user;
 	//private List prevList;
 	private List nextList;
 	private List p;
@@ -90,13 +89,5 @@ public class List {
 		this.players = players;
 	}
 
-	public User getUser() {
-		return user;
-	}
-
-	public void setUser(User user) {
-		this.user = user;
-	}
-	
 }
 	
