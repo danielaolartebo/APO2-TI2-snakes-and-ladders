@@ -104,7 +104,7 @@ public class Menu {
 			Random random = new Random();
 			int total = rows*columns;
 			int part_1= (total/2)+1;
-			int posUp =(int) (random.nextDouble()*total+part_1);
+			int posUp =random.nextInt(total-part_1+1)+part_1;
 			System.out.println(posUp);
 			if(listM.checkLadder(listM.searchList(posUp))) {
 				char ladder_up = (char)(type);
@@ -143,7 +143,7 @@ public class Menu {
 			Random random = new Random();
 			int total = rows*columns;
 			int part_1= (total/2)+1;
-			int posUp = (int)(random.nextDouble()*total+part_1);
+			int posUp = random.nextInt(total-part_1+1)+part_1;
 			
 			System.out.println(posUp);
 			if(listM.checkLadder(listM.searchList(posUp)) && listM.checkSnake(listM.searchList(posUp))) {
@@ -176,6 +176,7 @@ public class Menu {
 	
 	public void continuePlaying(int turn, int amountPlayers) throws IOException {
 		
+		
 		if(turn<amountPlayers) {
 			String next =br.readLine();
 			if(next.isEmpty()) {
@@ -183,10 +184,19 @@ public class Menu {
 				Random rdm = new Random();
 				int dice = 1+rdm.nextInt(6);
 				System.out.println(" El jugador "+player+" ha lanzado el dado y obtuvo el puntaje "+dice);
-				listM.movePlayers(player, turn, dice);
-				listM.show();
-				continuePlaying(turn=turn+1, amountPlayers);
+				listM.countMovements(turn);
+				if(listM.movePlayers(player, turn, dice)) {
+					System.out.println("¡El jugador " +player+" ha ganado!" );
+					String nickname = br.readLine();
+					listM.addPosition(nickname, listM.totalMovements(listM.searchUser(turn))); // CALLING THE ADD OF THE BINARY TREE
+					showMenu();
+				}else {
+					listM.show();
+					continuePlaying(turn=turn+1, amountPlayers);
+				}
 			}
+		}else {
+			continuePlaying(0, amountPlayers);
 		}
 	}
 	

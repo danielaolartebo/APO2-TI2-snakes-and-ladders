@@ -10,6 +10,7 @@ public class User {
 	public User(char p, int o) {
 		this.player=p;
 		this.order=o;
+		moves=0;
 	}
 
 	public char getPlayer() {

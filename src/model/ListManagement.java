@@ -1,5 +1,7 @@
 package model;
 
+import java.time.temporal.Temporal;
+
 public class ListManagement {
 	
 	private List start;
@@ -54,6 +56,12 @@ public class ListManagement {
 	public void assignPlayer(String players) {
 		end.setPlayers(players);
 	}
+	/* ------------------------------------------------------BINARY TREE ABOUT THE POSITIONS----------------------------------------------------------*/
+	
+	public void addPosition(String nickname, int points) {
+		
+	}
+	
 	
 	
 	/* ------------------------------------------------------WORKING WITH SNAKES AND LADDERS----------------------------------------------------------*/
@@ -135,18 +143,40 @@ public class ListManagement {
 		}
 	}
 	
+	public boolean findUsers(List winner) {
+		boolean win= true;
+		if(winner.getPlayers()==start.getPlayers()) {
+			win=false;
+		}
+		return win;
+	}
+	
+	public boolean win(boolean f) {
+		return f;
+	}
+	
 	public boolean someWinner(User user) {
-		boolean found=false;
-		if(start.getPlayers()==String.valueOf(user.getPlayer())) {
-			found=true;
+		boolean found=true;
+		if(user!=null) {
+			if(start.getPlayers()==String.valueOf(user.getPlayer())) {
+				
+				found=false;
+			}else {
+				user = user.getNextUser();
+				someWinner(user);
+			}
 		}
 		return found;
 	}
 	
-	private boolean samePlayer(User p, List same, int c) {
+	public String winner() {
+		return start.getPlayers();
+	}
+	
+	private boolean samePlayer(User p, List same) {
 		boolean found = false;
 		System.out.println(same.getPlayers());
-		char users = same.getPlayers().charAt(c);
+		char users = same.getPlayers().charAt(0);
 			if(users==p.getPlayer()) {
 				found=true;
 				return found;
@@ -155,47 +185,65 @@ public class ListManagement {
 				found=false;
 				return found;
 			}
-		
+	}
+	
+	public void countMovements(int turn) {
+		User temp = searchUser(turn);
+		int amountMove = temp.getMoves()+1;
+		temp.setMoves(amountMove);
+	}
+	
+	public int totalMovements(User p) {
+		return p.getMoves();
 	}
 	
 	/* ------------------------------------------------------MOVING THE PARTICIPANTS/PLAYERS----------------------------------------------------------*/
 	
-	public void movePlayers(char p, int pos, int moves) {
-		movePlayers(p, pos, moves, start);
+	public boolean movePlayers(char p, int pos, int moves) {
+		return movePlayers(p, pos, moves, start);
 	}
 	
-	public void movePlayers(char p, int pos, int moves, List temporal) {
+	public boolean movePlayers(char p, int pos, int moves,List temporal) {
 		User player = new User(p, pos);
 		
 		if(temporal.getPlayers()!="") {
-			if(samePlayer(player,temporal,0)) {
+			if(samePlayer(player,temporal)) {
 				temporal.setPlayers(temporal.getPlayers().replace(String.valueOf(player.getPlayer()), ""));
 				int currentPos = temporal.getRowXcolumn();
 				int newPos = currentPos+moves;
-				searchList(newPos);
-				if(checkLadder(searchList(newPos))) {  //**-------------------------------PLAYER IN THE NORMAL ROAD--------------------------------------**//
-					if(checkSnake(searchList(newPos))) { 
-						temporal= searchList(newPos);
-						if(temporal.getPlayers()!="") {	
-							temporal.setPlayers(temporal.getPlayers().replace(temporal.getPlayers(), temporal.getPlayers()+String.valueOf(player.getPlayer())));
-						}else {
-							temporal.setPlayers(String.valueOf(player.getPlayer()));
-						}
-					}else { //**-------------------------------------PLAYER FELL ON SNAKE--------------------------------------------**//
+				if(searchList(maxCells(newPos))!=start) {
+					if(checkLadder(searchList(newPos))) {  //**-------------------------------PLAYER IN THE NORMAL ROAD--------------------------------------**//
+						if(checkSnake(searchList(newPos))) { 
+							temporal= searchList(newPos);
+							if(temporal.getPlayers()!="") {	
+								temporal.setPlayers(temporal.getPlayers().replace(temporal.getPlayers(), temporal.getPlayers()+String.valueOf(player.getPlayer())));
+								return false;
+							}else {
+								temporal.setPlayers(String.valueOf(player.getPlayer()));
+								return false;
+							}
+						}else { //**-------------------------------------PLAYER FELL ON SNAKE--------------------------------------------**//
 						temporal= searchList(newPos);
 						moveAnotherSnake(temporal, player);
+						return false;
+						}
+					}else {  //**-----------------------------------PLAYER FELL ON LADDER--------------------------------------------**//
+						temporal=searchList(newPos);
+						
+						return moveAnotherLadder(temporal, player);
 					}
-				}else {  //**-----------------------------------PLAYER FELL ON LADDER--------------------------------------------**//
-					temporal=searchList(newPos);
-					moveAnotherLadder(temporal, player);
-				}
+				}else {
+					temporal = start;
+					temporal.setPlayers(String.valueOf(player.getPlayer()));
+					return true;
+				}	
 			}else {
 				temporal=temporal.getNextList();
-				movePlayers(p, pos, moves, temporal);
+				return movePlayers(p, pos, moves,temporal);
 			}
 		}else {
 			temporal=temporal.getNextList();
-			movePlayers(p,pos, moves, temporal);
+			return movePlayers(p,pos, moves,temporal);
 		}
 	}
 	
@@ -218,22 +266,39 @@ public class ListManagement {
 		}
 	}
 	
-	private void moveAnotherLadder(List ladder, User player) {
+	private boolean moveAnotherLadder(List ladder, User player) {
 		char ladder_1 = ladder.getLadders();
 		List foundLadder = searchLadder(ladder_1);
 		if(foundLadder.getRowXcolumn()!=ladder.getRowXcolumn()) {
-			if(foundLadder.getPlayers()!="") {
-				foundLadder.setPlayers(foundLadder.getPlayers().replace(foundLadder.getPlayers(), foundLadder.getPlayers()+String.valueOf(player.getPlayer())));
+			if(foundLadder!=start) {
+				if(foundLadder.getPlayers()!="") {
+					foundLadder.setPlayers(foundLadder.getPlayers().replace(foundLadder.getPlayers(), foundLadder.getPlayers()+String.valueOf(player.getPlayer())));
+					return false;
+				}else {
+					foundLadder.setPlayers(String.valueOf(player.getPlayer()));
+					return false;
+				}
 			}else {
 				foundLadder.setPlayers(String.valueOf(player.getPlayer()));
+				return true;
 			}
 		}else {
 			if(ladder.getPlayers()!="") {
 				ladder.setPlayers(ladder.getPlayers().replace(ladder.getPlayers(), ladder.getPlayers()+String.valueOf(player.getPlayer())));
+				return false;
 			}else {
 				ladder.setPlayers(String.valueOf(player.getPlayer()));
+				return false;
 			}
+		}	
+	}
+	
+	public int maxCells(int newPos) {
+		int maxCell = start.getRowXcolumn();
+		if(newPos>maxCell) {
+			newPos=maxCell;
 		}
+		return newPos;
 	}
 	
 	
