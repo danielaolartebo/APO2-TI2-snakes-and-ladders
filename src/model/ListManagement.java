@@ -6,7 +6,6 @@ public class ListManagement {
 	
 	private List start;
 	private List end;
-	
 	private User first;
 	private User last;
 	
@@ -14,10 +13,10 @@ public class ListManagement {
 		start=null;
 		end=null;
 	}
+	
 	/* ------------------------------------------------------WORKING WITH THE CELLS----------------------------------------------------------*/
+	
 	public void addList(int rowXcolumns) {  
-		
-		
 		if(start==null) {
 			List newList =  new List(rowXcolumns);
 			start = newList;
@@ -45,6 +44,7 @@ public class ListManagement {
 	public void assignSpaces(int i) {
 		assignSpaces(i,start);
 	}
+	
 	private void assignSpaces(int i, List temporal) {
 		if(i>0) {
 		temporal.setPlayers("");
@@ -56,13 +56,12 @@ public class ListManagement {
 	public void assignPlayer(String players) {
 		end.setPlayers(players);
 	}
+	
 	/* ------------------------------------------------------BINARY TREE ABOUT THE POSITIONS----------------------------------------------------------*/
 	
 	public void addPosition(String nickname, int points) {
 		
 	}
-	
-	
 	
 	/* ------------------------------------------------------WORKING WITH SNAKES AND LADDERS----------------------------------------------------------*/
 	

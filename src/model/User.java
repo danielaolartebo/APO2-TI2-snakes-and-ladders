@@ -9,11 +9,20 @@ public class User implements Serializable{
 	private int order;
 	private int moves;
 	private User nextUser;
+	private int score;
 	
 	public User(char p, int o) {
 		this.player=p;
 		this.order=o;
 		moves=0;
+	}
+	
+	public int getScore() {
+		return score;
+	}
+
+	public void setScore(int score) {
+		this.score = score;
 	}
 
 	public char getPlayer() {

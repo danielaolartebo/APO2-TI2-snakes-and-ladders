@@ -168,15 +168,10 @@ public class Menu {
 	public void playGame() throws IOException {
 		String starting = br.readLine();
 		if(starting.isEmpty()) {
-			
-			
-			
 		}
 	}
 	
 	public void continuePlaying(int turn, int amountPlayers) throws IOException {
-		
-		
 		if(turn<amountPlayers) {
 			String next =br.readLine();
 			if(next.isEmpty()) {
@@ -199,7 +194,6 @@ public class Menu {
 			continuePlaying(0, amountPlayers);
 		}
 	}
-	
 }
 
 
