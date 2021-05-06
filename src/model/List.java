@@ -9,7 +9,7 @@ public class List {
 	private String players;
 	//private List prevList;
 	private List nextList;
-	private List p;
+	//private List p;
 
 	public List(int rowAndColumn) {
 		this.rowXcolumn= rowAndColumn;
@@ -73,13 +73,13 @@ public class List {
 		this.nextList = nextList;
 	}
 	
-	public List getParent() {
+	/*public List getParent() {
 		return p;
 	}
 	
 	public void setParent(List parent) {
 		this.p=parent;
-	}
+	}*/
 
 	public String getPlayers() {
 		return players;

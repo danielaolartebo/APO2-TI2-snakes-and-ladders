@@ -56,9 +56,9 @@ public class Menu {
 			putSnakesDown(Integer.parseInt(data[0]), Integer.parseInt(data[1]), Integer.parseInt(data[2]), 65);
 			putSnakesUp(Integer.parseInt(data[0]), Integer.parseInt(data[1]), Integer.parseInt(data[2]), 65);
 			createUser(data[5], Integer.parseInt(data[4])-1);
-			playGame();
+			playGame(Integer.parseInt(data[0]), Integer.parseInt(data[1]));
 			listM.show();
-			continuePlaying(0, Integer.parseInt(data[4]));
+			continuePlaying(0, Integer.parseInt(data[4]), iteration);
 			
 			
 		}
@@ -83,8 +83,8 @@ public class Menu {
 		if(ladders>0) {
 			Random random = new Random();
 			int total = rows*columns;
-			int part_1= total/2;
-			int posDown = 2+random.nextInt(part_1+1);
+			int part_1= (total/2)-1;
+			int posDown = 2+random.nextInt(part_1);
 		
 			if(listM.checkLadder(listM.searchList(posDown))) {
 				char ladder_down = (char)(type);
@@ -103,7 +103,7 @@ public class Menu {
 		if(ladders>0) {
 			Random random = new Random();
 			int total = rows*columns;
-			int part_1= (total/2)+1;
+			int part_1= (total/2)+2;
 			int posUp =random.nextInt(total-part_1+1)+part_1;
 			System.out.println(posUp);
 			if(listM.checkLadder(listM.searchList(posUp))) {
@@ -122,8 +122,8 @@ public class Menu {
 		if(snakes>0) {
 			Random random = new Random();
 			int total = rows*columns;
-			int part_1= total/2;
-			int posDown = 2+random.nextInt(part_1+1);
+			int part_1= (total/2)-1;
+			int posDown = 2+random.nextInt(part_1);
 		
 			if(listM.checkLadder(listM.searchList(posDown)) && listM.checkSnake(listM.searchList(posDown))) {
 				char snake_down = (char)(type);
@@ -141,8 +141,8 @@ public class Menu {
 		
 		if(snakes>0) {
 			Random random = new Random();
-			int total = rows*columns;
-			int part_1= (total/2)+1;
+			int total = (rows*columns)-1;
+			int part_1= (total/2)+2;
 			int posUp = random.nextInt(total-part_1+1)+part_1;
 			
 			System.out.println(posUp);
@@ -165,16 +165,14 @@ public class Menu {
 	}
 	
 
-	public void playGame() throws IOException {
+	public void playGame(int row, int column) throws IOException {
 		String starting = br.readLine();
 		if(starting.isEmpty()) {
-			
-			
-			
+			listM.showContent(row, column);
 		}
 	}
 	
-	public void continuePlaying(int turn, int amountPlayers) throws IOException {
+	public void continuePlaying(int turn, int amountPlayers, int rowXcolumns) throws IOException {
 		
 		
 		if(turn<amountPlayers) {
@@ -188,18 +186,18 @@ public class Menu {
 				if(listM.movePlayers(player, turn, dice)) {
 					System.out.println("¡El jugador " +player+" ha ganado!" );
 					String nickname = br.readLine();
-					listM.addPosition(nickname, listM.totalMovements(listM.searchUser(turn))); // CALLING THE ADD OF THE BINARY TREE
+					listM.addPosition(nickname, listM.totalMovements(listM.searchUser(turn))*rowXcolumns);// CALLING THE ADD OF THE BINARY TREE
+					System.out.println("Jugador: "+nickname+"\n" +"Puntaje: " +listM.totalMovements(listM.searchUser(turn))*rowXcolumns+"\n");
 					showMenu();
 				}else {
 					listM.show();
-					continuePlaying(turn=turn+1, amountPlayers);
+					continuePlaying(turn=turn+1, amountPlayers, rowXcolumns);
 				}
 			}
 		}else {
-			continuePlaying(0, amountPlayers);
+			continuePlaying(0, amountPlayers,rowXcolumns);
 		}
 	}
-	
 }
 
 

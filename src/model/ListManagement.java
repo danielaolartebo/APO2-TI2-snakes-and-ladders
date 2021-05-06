@@ -16,8 +16,6 @@ public class ListManagement {
 	}
 	/* ------------------------------------------------------WORKING WITH THE CELLS----------------------------------------------------------*/
 	public void addList(int rowXcolumns) {  
-		
-		
 		if(start==null) {
 			List newList =  new List(rowXcolumns);
 			start = newList;
@@ -175,16 +173,21 @@ public class ListManagement {
 	
 	private boolean samePlayer(User p, List same) {
 		boolean found = false;
+		char users = 0;
 		System.out.println(same.getPlayers());
-		char users = same.getPlayers().charAt(0);
-			if(users==p.getPlayer()) {
+		System.out.println(same.getRowXcolumn());
+		if(same.getPlayers().isEmpty()) {
+		}else {
+			users = same.getPlayers().charAt(0);
+		}
+	
+		if(users==p.getPlayer()) {
 				found=true;
 				return found;
-			}
-			else {
-				found=false;
-				return found;
-			}
+		}else {
+			found=false;
+			return found;
+		}
 	}
 	
 	public void countMovements(int turn) {
@@ -251,7 +254,7 @@ public class ListManagement {
 		char snake_1 = snake.getSnakes();
 		List foundSnake = searchSnake(snake_1);
 		if(foundSnake.getRowXcolumn()==snake.getRowXcolumn()) {
-			foundSnake = searchList(snake_1, foundSnake.getNextList());
+			foundSnake = searchSnake(snake_1, foundSnake.getNextList());
 			if(foundSnake.getPlayers()!="") {
 				foundSnake.setPlayers(foundSnake.getPlayers().replace(foundSnake.getPlayers(), foundSnake.getPlayers()+String.valueOf(player.getPlayer())));
 			}else {
@@ -301,6 +304,49 @@ public class ListManagement {
 		return newPos;
 	}
 	
+	private void showColumnsOdd(int column, int row,List temp, int i) {
+		int oddOrEven=row%2;
+		
+		if(row!=0) {
+			if(column>=1){
+				if (oddOrEven==0) {
+					i=i+1;
+					System.out.print("["+temp.getRowXcolumn()+temp.getLadders()+temp.getSnakes()+"]");
+					showColumnsOdd(column=column-1, row, temp.getNextList(), i);
+				}else {
+					i=i+1;
+					int n=temp.getRowXcolumn()-column+i;
+					System.out.print("["+searchList(n).getRowXcolumn()+searchList(n).getLadders()+
+							searchList(n).getSnakes()+searchList(n).getPlayers()+"]");
+					showColumnsOdd(column=column-1, row, temp.getNextList(), i);
+				}
+			}else {
+				System.out.println();
+				showColumnsOdd(i, row=row-1, temp,0);
+			}
+		}else {
+			
+		}
+	}
+	
+	
+	
+	/*private String showColumnsEven(int column,int row,String table,List temp) {
+		
+		if (column >= 1) {
+			System.out.print(temp.getContentLeft()+temp.getContentRight());
+		
+			if (temp.getNextList() != null) {
+				temp = temp.getNextList();
+				showColumnsEven(column=column-1, row,temp);
+			}
+		}
+	}*/
+	
+	
+	public void showContent(int row, int column) {
+		showColumnsOdd(column, row, start, 0);
+	}
 	
 	public void show() {
 		if(start==null) {
