@@ -1,7 +1,5 @@
 package model;
 
-import java.time.temporal.Temporal;
-
 public class ListManagement {
 	
 	private List start;
@@ -300,10 +298,9 @@ public class ListManagement {
 		return newPos;
 	}
 	
-	
 	public void show() {
 		if(start==null) {
-			System.out.println("La lista esta vacia");
+			System.out.println("List is empty");
 		}else {
 			List temporal;
 			temporal=start;
@@ -316,7 +313,7 @@ public class ListManagement {
 	
 	public void showUser() {
 		if(first==null) {
-			System.out.println("La lista esta vacia");
+			System.out.println("List is empty");
 		}else {
 			User temporal;
 			temporal=first;

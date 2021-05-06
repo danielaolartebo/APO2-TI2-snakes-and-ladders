@@ -26,47 +26,60 @@ public class UserManagement {
 		}
 	}
 
-	public void addUser(User user) throws FileNotFoundException, IOException {
+	public void addUser(String nickname, int score, int columns, int rows, int snakes, int ladders, int players, String symbols) throws FileNotFoundException, IOException {
+		User u = new User(nickname, score, columns, rows, snakes, ladders, players, symbols);
 		if (root == null) {
-			root = user;
-			saveRoot();
+			root = u;
 		} else {
-			addUser(root, user);
+			addUser(root, u);
 		}
 	}
 
-	private void addUser(User current, User u) throws FileNotFoundException, IOException {
-	/*	if (current.getScore() >= u.getScore()) {
-			if (current.getLeft() == null) {
-				current.setLeft(u);
-				u.setParent(current);
+	private void addUser(User current, User newUser) throws FileNotFoundException, IOException {
+		if (newUser.getScore() <= current.getScore()) {
+			if (current.getRight() != null) {
+				addUser(current.getRight(), newUser);
 				saveRoot();
 			} else {
-				addUser(current.getLeft(), u);
+				current.setRight(newUser);
+				newUser.setParent(current);
 			}
 		} else {
-			if (current.getRight() == null) {
-				current.setRight(u);
-				u.setParent(current);
+			if (current.getLeft() != null) {
+				addUser(current.getLeft(), newUser);
 				saveRoot();
 			} else {
-				addUser(current.getRight(), u);
+				current.setLeft(newUser);
+				newUser.setParent(current);
 			}
-		} */
+		} 
 	}
-
-	public void inOrder(User x) {
-	/*	if (x != null) {
-			inOrder(x.getRight());
+	
+	public void inOrder(User u) {
+		if (u != null) {
+			inOrder(u.getRight());
 			positions++;
-			System.out.println(positions + "." + x.getData());
-			inOrder(x.getLeft());
+			System.out.println(positions + "." + u.toString());
+			inOrder(u.getLeft());
 		}
-	*/
-	} 
+	}
+
+	public String toString() {
+		String msg="";
+		if(root == null) {
+			msg = "There's no winner";
+		}else {
+			msg = root.toString(root);
+		}
+		return msg;
+	}
 
 	public User getRoot() {
 		return root;
+	}
+	
+	public void setRoot(User root) {
+		this.root=root;
 	}
 
 	public void restartPositions() {

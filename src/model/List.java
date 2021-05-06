@@ -7,7 +7,6 @@ public class List {
 	private String contentLeft;
 	private String contentRight;
 	private String players;
-	//private List prevList;
 	private List nextList;
 	private List p;
 
@@ -56,15 +55,7 @@ public class List {
 	public void setContentRight(String contentRight) {
 		this.contentRight = contentRight;
 	}
-
-	/*public List getPrevList() {
-		return prevList;
-	}
-
-	public void setPrevList(List prevList) {
-		this.prevList = prevList;
-	}*/
-
+	
 	public List getNextList() {
 		return nextList;
 	}
