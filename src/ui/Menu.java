@@ -1,17 +1,17 @@
 package ui;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.Random;
 
 import model.ListManagement;
+import model.UserManagement;
 
 public class Menu {
 	static BufferedReader br;
 	static final String principalMenu = "WELCOME TO SNAKES AND LADDERS GAME \n1:PLAY \n2:TABLE OF POSITIONS \n3:EXIT";
 	private ListManagement listM;
-	
+	private UserManagement table;
 	
 	public void showMenu() throws IOException {
 		br = new BufferedReader(new InputStreamReader(System.in));
@@ -20,13 +20,12 @@ public class Menu {
 		switch (option) {
 		case 1:
 			creationTable();
-		//	playOption(countSnakes, countLadders);
 			break;
 		case 2:
 			System.out.println();
 			System.out.println("PLAYER|DICE QUANTITY");
-		//	table.inOrder(table.getRoot());
-		//	table.restartPositions();
+			table.inOrder(table.getRoot());
+			table.restartPositions();
 			System.out.println();
 			showMenu();
 			break;
@@ -47,7 +46,6 @@ public class Menu {
 
 		listM = new ListManagement();
 		
-
 		if (Integer.parseInt(data[1]) <= 26 && Integer.parseInt(data[2]) <= iteration && Integer.parseInt(data[3]) <= iteration) {
 			createList(iteration);
 			assignPlayers(iteration, data[5]);
@@ -57,14 +55,12 @@ public class Menu {
 			putSnakesUp(Integer.parseInt(data[0]), Integer.parseInt(data[1]), Integer.parseInt(data[2]), 65);
 			createUser(data[5], Integer.parseInt(data[4])-1);
 			playGame(Integer.parseInt(data[0]), Integer.parseInt(data[1]));
-			listM.show();
-			continuePlaying(0, Integer.parseInt(data[4]), iteration);
+			continuePlaying(0, Integer.parseInt(data[4]), Integer.parseInt(data[0]), Integer.parseInt(data[1]));
 			
-			
+
 		}
 	}
 	
-
 	private void createList(int iteration) {
 		if(iteration>= 1) {	
 			listM.addList(iteration);
@@ -105,7 +101,7 @@ public class Menu {
 			int total = rows*columns;
 			int part_1= (total/2)+2;
 			int posUp =random.nextInt(total-part_1+1)+part_1;
-			System.out.println(posUp);
+			
 			if(listM.checkLadder(listM.searchList(posUp))) {
 				char ladder_up = (char)(type);
 				listM.putLadder(ladder_up, listM.searchList(posUp));
@@ -133,7 +129,6 @@ public class Menu {
 			}else {
 				putSnakesDown(rows, columns, snakes, type);
 			}
-			
 		}
 	}
 	
@@ -145,7 +140,7 @@ public class Menu {
 			int part_1= (total/2)+2;
 			int posUp = random.nextInt(total-part_1+1)+part_1;
 			
-			System.out.println(posUp);
+			
 			if(listM.checkLadder(listM.searchList(posUp)) && listM.checkSnake(listM.searchList(posUp))) {
 				char snake_down = (char)(type);
 				listM.putSnake(snake_down, listM.searchList(posUp));
@@ -168,34 +163,40 @@ public class Menu {
 	public void playGame(int row, int column) throws IOException {
 		String starting = br.readLine();
 		if(starting.isEmpty()) {
-			listM.showContent(row, column);
+			System.out.println(listM.showContentPrincipal(row, column));
 		}
 	}
 	
-	public void continuePlaying(int turn, int amountPlayers, int rowXcolumns) throws IOException {
-		
-		
+	public void continuePlaying(int turn, int amountPlayers, int row, int column) throws IOException {
+
 		if(turn<amountPlayers) {
 			String next =br.readLine();
 			if(next.isEmpty()) {
 				char player = listM.searchUser(turn).getPlayer();		
 				Random rdm = new Random();
 				int dice = 1+rdm.nextInt(6);
-				System.out.println(" El jugador "+player+" ha lanzado el dado y obtuvo el puntaje "+dice);
+				System.out.println("Player "+player+" has a score of "+dice);
 				listM.countMovements(turn);
 				if(listM.movePlayers(player, turn, dice)) {
-					System.out.println("¡El jugador " +player+" ha ganado!" );
+					System.out.println(listM.showContent(row, column));
+					System.out.println("Player " +player+" has won!" );
+					System.out.println("Now, put your name: ");
 					String nickname = br.readLine();
-					listM.addPosition(nickname, listM.totalMovements(listM.searchUser(turn))*rowXcolumns);// CALLING THE ADD OF THE BINARY TREE
-					System.out.println("Jugador: "+nickname+"\n" +"Puntaje: " +listM.totalMovements(listM.searchUser(turn))*rowXcolumns+"\n");
+					listM.addPosition(nickname, listM.totalMovements(listM.searchUser(turn))*(row*column));// CALLING THE ADD OF THE BINARY TREE
+					System.out.println("Player: "+nickname+"\n" +"Score: " +listM.totalMovements(listM.searchUser(turn))*(row*column)+"\n");
 					showMenu();
 				}else {
-					listM.show();
-					continuePlaying(turn=turn+1, amountPlayers, rowXcolumns);
+					System.out.println(listM.showContent(row, column));
+					continuePlaying(turn=turn+1, amountPlayers, row,column);
 				}
+			}else if(next.equalsIgnoreCase("num")){
+				System.out.println(listM.showContentPrincipal(row, column));
+				continuePlaying(turn, amountPlayers, row, column);
+			}else if(next.equalsIgnoreCase("menu")){
+				showMenu();
 			}
 		}else {
-			continuePlaying(0, amountPlayers,rowXcolumns);
+			continuePlaying(0, amountPlayers,row , column);
 		}
 	}
 }

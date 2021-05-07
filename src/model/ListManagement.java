@@ -1,20 +1,27 @@
 package model;
 
-import java.time.temporal.Temporal;
-
 public class ListManagement {
 	
 	private List start;
 	private List end;
-	
 	private User first;
 	private User last;
+	private String table;
+	private String table2;
+	
+	public static final String ANSI_BLACK = "\u001B[30m";
+	public static final String ANSI_RESET = "\u001B[0m";
+	
 	
 	public ListManagement() {
 		start=null;
 		end=null;
+		table="";
+		table2="";
 	}
+	
 	/* ------------------------------------------------------WORKING WITH THE CELLS----------------------------------------------------------*/
+	
 	public void addList(int rowXcolumns) {  
 		if(start==null) {
 			List newList =  new List(rowXcolumns);
@@ -43,6 +50,7 @@ public class ListManagement {
 	public void assignSpaces(int i) {
 		assignSpaces(i,start);
 	}
+	
 	private void assignSpaces(int i, List temporal) {
 		if(i>0) {
 		temporal.setPlayers("");
@@ -54,13 +62,12 @@ public class ListManagement {
 	public void assignPlayer(String players) {
 		end.setPlayers(players);
 	}
+	
 	/* ------------------------------------------------------BINARY TREE ABOUT THE POSITIONS----------------------------------------------------------*/
 	
 	public void addPosition(String nickname, int points) {
 		
 	}
-	
-	
 	
 	/* ------------------------------------------------------WORKING WITH SNAKES AND LADDERS----------------------------------------------------------*/
 	
@@ -174,8 +181,6 @@ public class ListManagement {
 	private boolean samePlayer(User p, List same) {
 		boolean found = false;
 		char users = 0;
-		System.out.println(same.getPlayers());
-		System.out.println(same.getRowXcolumn());
 		if(same.getPlayers().isEmpty()) {
 		}else {
 			users = same.getPlayers().charAt(0);
@@ -304,74 +309,67 @@ public class ListManagement {
 		return newPos;
 	}
 	
-	private void showColumnsOdd(int column, int row,List temp, int i) {
+
+	/* ------------------------------------------------------SHOW THE TABLES AND EACH POSITION----------------------------------------------------------*/
+	
+	private String showColumnsPrincipals(int column, int row,List temp, int i) {
 		int oddOrEven=row%2;
 		
 		if(row!=0) {
 			if(column>=1){
 				if (oddOrEven==0) {
 					i=i+1;
-					System.out.print("["+temp.getRowXcolumn()+temp.getLadders()+temp.getSnakes()+"]");
-					showColumnsOdd(column=column-1, row, temp.getNextList(), i);
+					table=table+"[ "+temp.getRowXcolumn()+/*ANSI_BLACK+*/temp.getLadders()+/*ANSI_RESET*/temp.getSnakes()+"]";
+					return showColumnsPrincipals(column=column-1, row, temp.getNextList(), i);
 				}else {
 					i=i+1;
 					int n=temp.getRowXcolumn()-column+i;
-					System.out.print("["+searchList(n).getRowXcolumn()+searchList(n).getLadders()+
-							searchList(n).getSnakes()+searchList(n).getPlayers()+"]");
-					showColumnsOdd(column=column-1, row, temp.getNextList(), i);
+					table=table+"[ "+searchList(n).getRowXcolumn()+/*ANSI_BLACK+*/searchList(n).getLadders()+/*ANSI_RESET*/
+							searchList(n).getSnakes()+"]";
+					return showColumnsPrincipals(column=column-1, row, temp.getNextList(), i);
 				}
 			}else {
-				System.out.println();
-				showColumnsOdd(i, row=row-1, temp,0);
+				table=table+"\n";
+				return showColumnsPrincipals(i, row=row-1, temp,0);
 			}
 		}else {
-			
+			return table;
 		}
 	}
 	
-	
-	
-	/*private String showColumnsEven(int column,int row,String table,List temp) {
+	private String showColumns(int column, int row,List temp, int i) {
+		int oddOrEven=row%2;
 		
-		if (column >= 1) {
-			System.out.print(temp.getContentLeft()+temp.getContentRight());
-		
-			if (temp.getNextList() != null) {
-				temp = temp.getNextList();
-				showColumnsEven(column=column-1, row,temp);
+		if(row!=0) {
+			if(column>=1){
+				if (oddOrEven==0) {
+					i=i+1;
+					table2=table2+"["+/*ANSI_BLACK+*/temp.getLadders()+/*ANSI_RESET*/temp.getSnakes()+temp.getPlayers()+"]";
+					return showColumns(column=column-1, row, temp.getNextList(), i);
+				}else {
+					i=i+1;
+					int n=temp.getRowXcolumn()-column+i;
+					table2=table2+"["+/*ANSI_BLACK+*/searchList(n).getLadders()+/*ANSI_RESET*/
+							searchList(n).getSnakes()+searchList(n).getPlayers()+"]";
+					return showColumns(column=column-1, row, temp.getNextList(), i);
+				}
+			}else {
+				table2=table2+"\n";
+				return showColumns(i, row=row-1, temp,0);
 			}
-		}
-	}*/
-	
-	
-	public void showContent(int row, int column) {
-		showColumnsOdd(column, row, start, 0);
-	}
-	
-	public void show() {
-		if(start==null) {
-			System.out.println("La lista esta vacia");
 		}else {
-			List temporal;
-			temporal=start;
-			while(temporal!=null) {
-				System.out.println(temporal.getRowXcolumn()+""+temporal.getLadders()+""+temporal.getSnakes()+""+temporal.getPlayers());
-				temporal=temporal.getNextList();
-			}
+			return table2;
 		}
 	}
 	
-	public void showUser() {
-		if(first==null) {
-			System.out.println("La lista esta vacia");
-		}else {
-			User temporal;
-			temporal=first;
-			while(temporal!=null) {
-				System.out.println(temporal.getOrder()+ ""+ temporal.getPlayer());
-				temporal=temporal.getNextUser();
-			}
-		}
+	public String showContentPrincipal(int row, int column) {
+		table="";
+		return showColumnsPrincipals(column, row, start, 0);
+	}
+	
+	public String showContent(int row, int column) {
+		table2="";
+		return showColumns(column, row, start, 0);
 	}
 	
 }
