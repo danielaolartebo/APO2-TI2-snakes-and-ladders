@@ -63,13 +63,9 @@ public class ListManagement {
 		end.setPlayers(players);
 	}
 	
-	/* ------------------------------------------------------BINARY TREE ABOUT THE POSITIONS----------------------------------------------------------*/
-	
-	public void addPosition(String nickname, int points) {
-		
-	}
 	
 	/* ------------------------------------------------------WORKING WITH SNAKES AND LADDERS----------------------------------------------------------*/
+	
 	
 	public boolean checkLadder(List ladders) {
 		boolean found = false;

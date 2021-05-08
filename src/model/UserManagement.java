@@ -11,7 +11,7 @@ import java.io.FileNotFoundException;
 public class UserManagement {
 	private User root;
 	private int positions;
-	public static final String POSITIONS_PATH = "data/ranking.jmpc";
+	public static final String POSITIONS_PATH = "data/ranking.dob";
 	
 	public UserManagement() throws FileNotFoundException, IOException, ClassNotFoundException {
 		File f = new File(POSITIONS_PATH);
@@ -20,16 +20,17 @@ public class UserManagement {
 			root = (User) ois.readObject();
 			positions = 0;
 			ois.close();
-		} else {
+		}else{
 			root = null;
 			positions = 0;
 		}
 	}
 
-	public void addUser(String nickname, int score, int columns, int rows, int snakes, int ladders, int players, String symbols) throws FileNotFoundException, IOException {
+	public void addUser(String nickname, int score, int columns, int rows, int snakes, int ladders, int players, char symbols) throws FileNotFoundException, IOException {
 		User u = new User(nickname, score, columns, rows, snakes, ladders, players, symbols);
 		if (root == null) {
 			root = u;
+			saveRoot();
 		} else {
 			addUser(root, u);
 		}
@@ -57,10 +58,10 @@ public class UserManagement {
 	
 	public void inOrder(User u) {
 		if (u != null) {
-			inOrder(u.getRight());
-			positions++;
-			System.out.println(positions + "." + u.toString());
 			inOrder(u.getLeft());
+			positions++;
+			System.out.println(positions + "." + toString());
+			inOrder(u.getRight());
 		}
 	}
 

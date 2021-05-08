@@ -3,10 +3,11 @@ import java.io.Serializable;
 
 public class User implements Serializable{
 
-	private static final long serialVersionUID = 1;
+	private static final long serialVersionUID = 1L;
 	private char player;
 	private int order;
 	private int moves;
+	
 	private User nextUser;
 	private String nickname;
 	private int score;
@@ -15,7 +16,7 @@ public class User implements Serializable{
 	private int snakes;
 	private int ladders;
 	private int players;
-	private String symbols;
+	private char symbols;
 	private User left;
 	private User right;
 	private User parent;
@@ -26,7 +27,7 @@ public class User implements Serializable{
 		moves=0;
 	}
 
-	public User(String nickname, int score, int columns, int rows, int snakes, int ladders, int players, String symbols) {
+	public User(String nickname, int score, int columns, int rows, int snakes, int ladders, int players, char symbols) {
 		this.setNickname(nickname);
 		this.score = score;
 		this.columns = columns;
@@ -125,11 +126,11 @@ public class User implements Serializable{
 		this.ladders = ladders;
 	}
 	
-	public String getSymbols() {
+	public char getSymbols() {
 		return symbols;
 	}
 
-	public void setSymbols(String symbols) {
+	public void setSymbols(char symbols) {
 		this.symbols = symbols;
 	}
 	public User getLeft() {

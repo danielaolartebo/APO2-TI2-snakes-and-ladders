@@ -1,5 +1,9 @@
 package ui;
+import java.awt.AWTException;
+import java.awt.Robot;
+import java.awt.event.KeyEvent;
 import java.io.BufferedReader;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.Random;
@@ -13,6 +17,10 @@ public class Menu {
 	private ListManagement listM;
 	private UserManagement table;
 	
+	public Menu() throws FileNotFoundException, ClassNotFoundException, IOException {
+		table = new UserManagement();
+	}
+	
 	public void showMenu() throws IOException {
 		br = new BufferedReader(new InputStreamReader(System.in));
 		System.out.println(principalMenu);
@@ -23,7 +31,7 @@ public class Menu {
 			break;
 		case 2:
 			System.out.println();
-			System.out.println("PLAYER|DICE QUANTITY");
+			System.out.println("PLAYER|DI");
 			table.inOrder(table.getRoot());
 			table.restartPositions();
 			System.out.println();
@@ -55,7 +63,8 @@ public class Menu {
 			putSnakesUp(Integer.parseInt(data[0]), Integer.parseInt(data[1]), Integer.parseInt(data[2]), 65);
 			createUser(data[5], Integer.parseInt(data[4])-1);
 			playGame(Integer.parseInt(data[0]), Integer.parseInt(data[1]));
-			continuePlaying(0, Integer.parseInt(data[4]), Integer.parseInt(data[0]), Integer.parseInt(data[1]));
+			continuePlaying(0, Integer.parseInt(data[4]), Integer.parseInt(data[0]), Integer.parseInt(data[1]), 
+					Integer.parseInt(data[2]), Integer.parseInt(data[3]), false);
 			
 
 		}
@@ -167,38 +176,101 @@ public class Menu {
 		}
 	}
 	
-	public void continuePlaying(int turn, int amountPlayers, int row, int column) throws IOException {
-
-		if(turn<amountPlayers) {
-			String next =br.readLine();
-			if(next.isEmpty()) {
-				char player = listM.searchUser(turn).getPlayer();		
-				Random rdm = new Random();
-				int dice = 1+rdm.nextInt(6);
-				System.out.println("Player "+player+" has a score of "+dice);
-				listM.countMovements(turn);
-				if(listM.movePlayers(player, turn, dice)) {
-					System.out.println(listM.showContent(row, column));
-					System.out.println("Player " +player+" has won!" );
-					System.out.println("Now, put your name: ");
-					String nickname = br.readLine();
-					listM.addPosition(nickname, listM.totalMovements(listM.searchUser(turn))*(row*column));// CALLING THE ADD OF THE BINARY TREE
-					System.out.println("Player: "+nickname+"\n" +"Score: " +listM.totalMovements(listM.searchUser(turn))*(row*column)+"\n");
+	public void continuePlaying(int turn, int amountPlayers, int row, int column, int snake, int ladders, boolean simul) throws IOException {
+		
+		if(!simul) {
+			if(turn<amountPlayers) {
+				String next =br.readLine();
+				if(next.isEmpty()) {
+					char player = listM.searchUser(turn).getPlayer();		
+					Random rdm = new Random();
+					int dice = 1+rdm.nextInt(6);
+					System.out.println("Player "+player+" has a score of "+dice);
+					listM.countMovements(turn);
+					if(listM.movePlayers(player, turn, dice)) {
+						System.out.println(listM.showContent(row, column));
+						System.out.println("Player " +player+" has won!" );
+						System.out.println("Now, put your name: ");
+						String nickname = br.readLine();
+					
+						System.out.println(nickname+"-"+ listM.totalMovements(listM.searchUser(turn))*(row*column)+"-"+ column+"-"+ row+"-"+ snake+"-"+ ladders+"-"+ amountPlayers+"-"+ player);
+					
+					
+						table.addUser(nickname, listM.totalMovements(listM.searchUser(turn))*(row*column), column, row, snake, ladders, amountPlayers, player);// CALLING THE ADD OF THE BINARY TREE
+						System.out.println("Player: "+nickname+"\n" +"Score: " +listM.totalMovements(listM.searchUser(turn))*(row*column)+"\n");
+						showMenu();
+					}else {
+						System.out.println(listM.showContent(row, column));
+						continuePlaying(turn=turn+1, amountPlayers, row,column, snake, ladders, simul);
+					}
+				}else if(next.equalsIgnoreCase("num")){
+					System.out.println(listM.showContentPrincipal(row, column));
+					continuePlaying(turn, amountPlayers, row, column, snake, ladders, simul);
+				}else if(next.equalsIgnoreCase("menu")){
 					showMenu();
-				}else {
-					System.out.println(listM.showContent(row, column));
-					continuePlaying(turn=turn+1, amountPlayers, row,column);
+				}else if(next.equalsIgnoreCase("simul")) {
+					System.out.println("Wait 2 seconds . . .");
+					simul = true;
+					continuePlaying(turn, amountPlayers, row,column, snake, ladders, simul);
 				}
-			}else if(next.equalsIgnoreCase("num")){
-				System.out.println(listM.showContentPrincipal(row, column));
-				continuePlaying(turn, amountPlayers, row, column);
-			}else if(next.equalsIgnoreCase("menu")){
-				showMenu();
+			}else {
+				continuePlaying(0, amountPlayers,row , column, snake, ladders, simul);
 			}
 		}else {
-			continuePlaying(0, amountPlayers,row , column);
+			if(turn<amountPlayers) {
+				try {
+					Thread.sleep(2000);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+				pressEnter();
+				String next =br.readLine();
+				if(next.isEmpty()) {
+					char player = listM.searchUser(turn).getPlayer();		
+					Random rdm = new Random();
+					int dice = 1+rdm.nextInt(6);
+					System.out.println("Player "+player+" has a score of "+dice);
+					listM.countMovements(turn);
+					if(listM.movePlayers(player, turn, dice)) {
+						System.out.println(listM.showContent(row, column));
+						System.out.println("Player " +player+" has won!" );
+						System.out.println("Now, put your name: ");
+						releaseEnter();
+						String nickname = br.readLine();
+						table.addUser(nickname, listM.totalMovements(listM.searchUser(turn))*(row*column), column, row, snake, ladders, amountPlayers, player);// CALLING THE ADD OF THE BINARY TREE
+						System.out.println("Player: "+nickname+"\n" +"Score: " +listM.totalMovements(listM.searchUser(turn))*(row*column)+"\n");
+						showMenu();
+					}else {
+						System.out.println(listM.showContent(row, column));
+						continuePlaying(turn=turn+1, amountPlayers, row,column, snake, ladders, simul);
+					}
+				}
+			}else {
+				continuePlaying(0, amountPlayers,row , column, snake, ladders, simul);
+			}
 		}
 	}
+	
+	public void pressEnter() {
+		Robot robot;
+		try {
+			robot = new Robot();
+			robot.keyPress(KeyEvent.VK_ENTER);
+		} catch (AWTException e) {
+			e.printStackTrace();
+		} 
+	}
+	
+	public void releaseEnter() {
+		Robot robot;
+		try {
+			robot = new Robot();
+			robot.keyRelease(KeyEvent.VK_ENTER);
+		} catch (AWTException e) {
+			e.printStackTrace();
+		} 
+	}
+	
 }
 
 
