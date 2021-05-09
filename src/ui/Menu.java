@@ -51,22 +51,27 @@ public class Menu {
 		System.out.println("INSERT ROW|COLUMNS|NUMBER SNAKES|NUMBER OF LADDERS|NUMBER OF PLAYERS|NAME OF PLAYERS");
 		String[] data = br.readLine().split(" ");
 		int iteration = Integer.parseInt(data[0]) * Integer.parseInt(data[1]);
-
 		listM = new ListManagement();
+		int snakeAndLadders = (Integer.parseInt(data[2])*2)+(Integer.parseInt(data[3])*2);
 		
-		if (Integer.parseInt(data[1]) <= 26 && Integer.parseInt(data[2]) <= iteration && Integer.parseInt(data[3]) <= iteration) {
-			createList(iteration);
-			assignPlayers(iteration, data[5]);
-			putLaddersDown(Integer.parseInt(data[0]), Integer.parseInt(data[1]), Integer.parseInt(data[3]), 49);
-			putLaddersUp(Integer.parseInt(data[0]), Integer.parseInt(data[1]), Integer.parseInt(data[3]), 49);
-			putSnakesDown(Integer.parseInt(data[0]), Integer.parseInt(data[1]), Integer.parseInt(data[2]), 65);
-			putSnakesUp(Integer.parseInt(data[0]), Integer.parseInt(data[1]), Integer.parseInt(data[2]), 65);
-			createUser(data[5], Integer.parseInt(data[4])-1);
-			playGame(Integer.parseInt(data[0]), Integer.parseInt(data[1]));
-			continuePlaying(0, Integer.parseInt(data[4]), Integer.parseInt(data[0]), Integer.parseInt(data[1]), 
+		if(snakeAndLadders<iteration) {
+			if (Integer.parseInt(data[1]) <= 26 && Integer.parseInt(data[2]) <= iteration && Integer.parseInt(data[3]) <= iteration) {
+				createList(iteration);
+				assignPlayers(iteration, data[5]);
+				putLaddersDown(Integer.parseInt(data[0]), Integer.parseInt(data[1]), Integer.parseInt(data[3]), 49);
+				putLaddersUp(Integer.parseInt(data[0]), Integer.parseInt(data[1]), Integer.parseInt(data[3]), 49);
+				putSnakesDown(Integer.parseInt(data[0]), Integer.parseInt(data[1]), Integer.parseInt(data[2]), 65);
+				putSnakesUp(Integer.parseInt(data[0]), Integer.parseInt(data[1]), Integer.parseInt(data[2]), 65);
+				createUser(data[5], Integer.parseInt(data[4])-1);
+				playGame(Integer.parseInt(data[0]), Integer.parseInt(data[1]));
+				continuePlaying(0, Integer.parseInt(data[4]), Integer.parseInt(data[0]), Integer.parseInt(data[1]), 
 					Integer.parseInt(data[2]), Integer.parseInt(data[3]), false);
 			
 
+			}
+		}else {
+			System.out.println("The amount of the snakes and ladders cant be equal or greater to the total amount of cells. \n");
+			creationTable();
 		}
 	}
 	
