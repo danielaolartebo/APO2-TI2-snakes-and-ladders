@@ -8,7 +8,6 @@ public class List {
 	private String contentRight;
 	private String players;
 	private List nextList;
-	//private List p;
 
 	public List(int rowAndColumn) {
 		this.rowXcolumn= rowAndColumn;

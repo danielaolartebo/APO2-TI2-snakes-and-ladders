@@ -1,9 +1,7 @@
 package model;
-import java.io.Serializable;
 
-public class User implements Serializable{
+public class User {
 
-	private static final long serialVersionUID = 1L;
 	private char player;
 	private int order;
 	private int moves;
@@ -157,7 +155,7 @@ public class User implements Serializable{
 		this.parent = parent;
 	}
 
-	public String toString(User u) {
+	/* public String toString(User u) {
 		String msg = "";
 		if (u != null) {
 			msg += toString(u.left);
@@ -165,6 +163,6 @@ public class User implements Serializable{
 			msg += toString(u.right);
 		}
 		return msg;
-	}
+	} */
 	
 }

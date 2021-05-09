@@ -7,9 +7,12 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.Random;
-
 import model.ListManagement;
 import model.UserManagement;
+
+/**
+ * Menu Class
+ */
 
 public class Menu {
 	static BufferedReader br;
@@ -17,9 +20,25 @@ public class Menu {
 	private ListManagement listM;
 	private UserManagement table;
 	
+	/**
+	 * The constructor of Menu Class
+	 * pre:
+	 * pos: build a instance of Menu
+	 * @throws FileNotFoundException file not found
+	 * @throws ClassNotFoundException class not found
+	 * @throws IOException an ioexception
+	 */
+	
 	public Menu() throws FileNotFoundException, ClassNotFoundException, IOException {
 		table = new UserManagement();
 	}
+
+	/**
+	 * show Menu
+	 * pre:
+	 * pos: show the menu with the options
+	 * @throws IOException ioexception
+	 */
 	
 	public void showMenu() throws IOException {
 		br = new BufferedReader(new InputStreamReader(System.in));
@@ -47,6 +66,13 @@ public class Menu {
 		}
 	}
 	
+	/**
+	 * creation table
+	 * pre:
+	 * pos: create a table with dimensions given
+	 * @throws IOException an ioexception
+	 */
+	
 	private void creationTable() throws IOException{
 		System.out.println("INSERT ROW|COLUMNS|NUMBER SNAKES|NUMBER OF LADDERS|NUMBER OF PLAYERS|NAME OF PLAYERS");
 		String[] data = br.readLine().split(" ");
@@ -65,10 +91,17 @@ public class Menu {
 			playGame(Integer.parseInt(data[0]), Integer.parseInt(data[1]));
 			continuePlaying(0, Integer.parseInt(data[4]), Integer.parseInt(data[0]), Integer.parseInt(data[1]), 
 					Integer.parseInt(data[2]), Integer.parseInt(data[3]), false);
-			
-
 		}
 	}
+	
+	/**
+	 * create list
+	 * pre:
+	 * pos: create the List of the game
+	 * @param row the rows of the list
+	 * @param column the columns of the list
+	 * @param iteration count of the list
+	 */
 	
 	private void createList(int iteration) {
 		if(iteration>= 1) {	
@@ -82,6 +115,13 @@ public class Menu {
 		listM.assignSpaces(i);
 		listM.assignPlayer(players);
 	}
+	
+	/**
+	 * put ladders
+	 * pre:
+	 * pos: put end of ladders randomly in the game
+	 * @param rows, columns, ladders, type to put quantity of ladders
+	 */
 	
 	private void putLaddersDown(int rows, int columns, int ladders, int type) {
 		
@@ -102,6 +142,12 @@ public class Menu {
 		}
 	}
 	
+	/**
+	 * put ladders
+	 * pre:
+	 * pos: put beginning of ladders randomly in the game
+	 * @param rows, columns, ladders, type to put quantity of ladders
+	 */
 	
 	private void putLaddersUp(int rows, int columns, int ladders, int type) {
 		
