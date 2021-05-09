@@ -249,8 +249,6 @@ public class Menu {
 						String nickname = br.readLine();
 					
 						System.out.println(nickname+"-"+ listM.totalMovements(listM.searchUser(turn))*(row*column)+"-"+ column+"-"+ row+"-"+ snake+"-"+ ladders+"-"+ amountPlayers+"-"+ player);
-					
-					
 						table.addUser(nickname, listM.totalMovements(listM.searchUser(turn))*(row*column), column, row, snake, ladders, amountPlayers, player);// CALLING THE ADD OF THE BINARY TREE
 						System.out.println("Player: "+nickname+"\n" +"Score: " +listM.totalMovements(listM.searchUser(turn))*(row*column)+"\n");
 						showMenu();
@@ -275,7 +273,7 @@ public class Menu {
 			if(turn<amountPlayers) {
 				try {
 					Thread.sleep(2000);
-				} catch (InterruptedException e) {
+				}catch (InterruptedException e) {
 					e.printStackTrace();
 				}
 				pressEnter();

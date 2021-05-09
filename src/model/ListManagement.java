@@ -1,5 +1,12 @@
 package model;
 
+/**
+ * 
+ * @author Santiago Gutierrez // Daniela Olarte
+ * ListManagement Class
+ *
+ */
+
 public class ListManagement {
 	
 	private List start;
@@ -8,10 +15,14 @@ public class ListManagement {
 	private User last;
 	private String table;
 	private String table2;
-	
 	public static final String ANSI_BLACK = "\u001B[30m";
 	public static final String ANSI_RESET = "\u001B[0m";
 	
+	/**
+	 * Constructor of ListManagement class
+	 * pre:
+	 * pos: build a ListManagement instance
+	 */
 	
 	public ListManagement() {
 		start=null;
@@ -21,6 +32,13 @@ public class ListManagement {
 	}
 	
 	/* ------------------------------------------------------WORKING WITH THE CELLS----------------------------------------------------------*/
+	
+	/**
+	 * addList
+	 * pre:
+	 * pos: add list 
+	 * @param rowXcolumns to add in matrix
+	 */
 	
 	public void addList(int rowXcolumns) {  
 		if(start==null) {
@@ -34,9 +52,26 @@ public class ListManagement {
 		}
 	}
 	
+	/**
+	 * searchList
+	 * pre:
+	 * pos: search in list 
+	 * @param pos to search in list
+	 * @return searchList
+	 */
+	
 	public List searchList(int pos) {  
 		return searchList(pos, start);
 	}
+	
+	/**
+	 * searchList
+	 * pre:
+	 * pos: search in list 
+	 * @param pos to search in list
+	 * @param temp in matrix
+	 * @return searchList
+	 */
 	
 	private List searchList(int pos, List temp) {
 		if(temp.getRowXcolumn()==pos) {
@@ -47,9 +82,23 @@ public class ListManagement {
 		}
 	}
 	
+	/**
+	 * assignSpaces
+	 * pre:
+	 * pos: i to assign in game
+	 * @param i to assign
+	 */
+	
 	public void assignSpaces(int i) {
 		assignSpaces(i,start);
 	}
+	
+	/**
+	 * assignSpaces
+	 * pre:
+	 * pos: spaces to assign in game
+	 * @param spaces to assign
+	 */
 	
 	private void assignSpaces(int i, List temporal) {
 		if(i>0) {
@@ -59,6 +108,13 @@ public class ListManagement {
 		}
 	}
 	
+	/**
+	 * assignPlayer
+	 * pre:
+	 * pos: players to assign in game
+	 * @param players to assign
+	 */
+	
 	public void assignPlayer(String players) {
 		end.setPlayers(players);
 	}
@@ -66,6 +122,13 @@ public class ListManagement {
 	
 	/* ------------------------------------------------------WORKING WITH SNAKES AND LADDERS----------------------------------------------------------*/
 	
+	/**
+	 * checkLadder
+	 * pre:
+	 * pos: check ladder in matrix
+	 * @param ladder to check in matrix
+	 * @return boolean found
+	 */
 	
 	public boolean checkLadder(List ladders) {
 		boolean found = false;
@@ -75,9 +138,25 @@ public class ListManagement {
 		return found;
 	}
 	
+	/**
+	 * putLadder
+	 * pre:
+	 * pos: put ladder in matrix
+	 * @param ladder to put in matrix
+	 * @param pos in matrix
+	 */
+	
 	public void putLadder(char ladder, List pos) {
 		pos.setLadders(ladder);
 	}
+	
+	/**
+	 * checkSnake
+	 * pre:
+	 * pos: check snake in matrix
+	 * @param snakes to check in matrix
+	 * @return boolean found
+	 */
 	
 	public boolean checkSnake(List snakes) {
 		boolean found = false;
@@ -87,13 +166,38 @@ public class ListManagement {
 		return found;
 	}
 	
+	/**
+	 * putSnake
+	 * pre:
+	 * pos: put snake in matrix
+	 * @param snake to put in matrix
+	 * @param pos in matrix
+	 */
+	
 	public void putSnake(char snake, List pos) {
 		pos.setSnakes(snake);
 	}
 	
+	/**
+	 * searchSnake
+	 * pre:
+	 * pos: search snake
+	 * @param snake to search in matrix
+	 * @return List searchSnake
+	 */
+	
 	public List searchSnake(char snake) {
 		return searchSnake(snake, start);
 	}
+	
+	/**
+	 * searchSnake
+	 * pre:
+	 * pos: search snake
+	 * @param s to search in matrix
+	 * @param temp in matrix
+	 * @return List searchSnake
+	 */
 	
 	private List searchSnake(char s, List temp) {
 		if(temp.getSnakes()==s) {
@@ -104,9 +208,26 @@ public class ListManagement {
 		}
 	}
 	
+	/**
+	 * searchLadder
+	 * pre:
+	 * pos: search ladder
+	 * @param ladder to search in matrix
+	 * @return List searchLadder
+	 */
+	
 	public List searchLadder(char ladder) {
 		return searchLadder(ladder, start);
 	}
+	
+	/**
+	 * searchLadder
+	 * pre:
+	 * pos: search ladder
+	 * @param l ladder to search in matrix
+	 * @param temp in matrix
+	 * @return List searchLadder
+	 */
 	
 	private List searchLadder(char l, List temp) {
 		if(temp.getLadders()==l) {
@@ -118,6 +239,14 @@ public class ListManagement {
 	}
 	
 	/* ------------------------------------------------------WORKING WITH THE PARTICIPANTS/PLAYERS----------------------------------------------------------*/
+	
+	/**
+	 * addPlayer
+	 * pre:
+	 * pos: add player to the game
+	 * @param user to add
+	 * @param order to add
+	 */
 	
 	public void addPlayer(char user, int order) {
 		if(first==null) {
@@ -131,9 +260,26 @@ public class ListManagement {
 		}
 	}
 	
+	/**
+	 * Search user
+	 * pre:
+	 * pos: return the searched user
+	 * @param pos of the user to search
+	 * @return User searchUser
+	 */
+	
 	public User searchUser(int pos) {
 		return searchUser(pos, first);
 	}
+	
+	/**
+	 * searchUser
+	 * pre:
+	 * pos: search user
+	 * @param pos of user of the game
+	 * @param temp of the game
+	 * @return User temp
+	 */
 	
 	public User searchUser(int pos, User temp) {
 		if(temp.getOrder()==pos) {
@@ -144,6 +290,14 @@ public class ListManagement {
 		}
 	}
 	
+	/**
+	 * findUser
+	 * pre:
+	 * pos: find users
+	 * @param winner of the game
+	 * @return boolean win
+	 */
+	
 	public boolean findUsers(List winner) {
 		boolean win= true;
 		if(winner.getPlayers()==start.getPlayers()) {
@@ -152,9 +306,25 @@ public class ListManagement {
 		return win;
 	}
 	
+	/**
+	 * win
+	 * pre:
+	 * pos: found winner of the game
+	 * @param f found winner of the game
+	 * @return boolean f
+	 */
+	
 	public boolean win(boolean f) {
 		return f;
 	}
+	
+	/**
+	 * someWinner
+	 * pre:
+	 * pos: some winner of the game
+	 * @param user of the game
+	 * @return boolean found
+	 */
 	
 	public boolean someWinner(User user) {
 		boolean found=true;
@@ -170,9 +340,25 @@ public class ListManagement {
 		return found;
 	}
 	
+	/**
+	 * winner
+	 * pre:
+	 * pos: winner of the game
+	 * @return String start
+	 */
+	
 	public String winner() {
 		return start.getPlayers();
 	}
+	
+	/**
+	 * samePlayer
+	 * pre:
+	 * pos: same player
+	 * @param p in game
+	 * @param same in game
+	 * @return boolean found
+	 */
 	
 	private boolean samePlayer(User p, List same) {
 		boolean found = false;
@@ -191,11 +377,26 @@ public class ListManagement {
 		}
 	}
 	
+	/**
+	 * countMovements
+	 * pre:
+	 * pos: turn of each user in the game
+	 * @param turn in game 
+	 */
+	
 	public void countMovements(int turn) {
 		User temp = searchUser(turn);
 		int amountMove = temp.getMoves()+1;
 		temp.setMoves(amountMove);
 	}
+	
+	/**
+	 * totalMovements
+	 * pre:
+	 * pos: move snake
+	 * @param p in game
+	 * @return int p
+	 */
 	
 	public int totalMovements(User p) {
 		return p.getMoves();
@@ -203,9 +404,30 @@ public class ListManagement {
 	
 	/* ------------------------------------------------------MOVING THE PARTICIPANTS/PLAYERS----------------------------------------------------------*/
 	
+	/**
+	 * movePlayers
+	 * pre:
+	 * pos: move snake
+	 * @param p in matrix
+	 * @param pos in matrix
+	 * @param moves in matrix
+	 * @return boolean movePlayers
+	 */
+	
 	public boolean movePlayers(char p, int pos, int moves) {
 		return movePlayers(p, pos, moves, start);
 	}
+	
+	/**
+	 * movePlayers
+	 * pre:
+	 * pos: move snake
+	 * @param p in matrix
+	 * @param pos in matrix
+	 * @param moves in matrix
+	 * @param temporal in matrix
+	 * @return boolean temporal
+	 */
 	
 	public boolean movePlayers(char p, int pos, int moves,List temporal) {
 		User player = new User(p, pos);
@@ -251,6 +473,14 @@ public class ListManagement {
 		}
 	}
 	
+	/**
+	 * moveAnotherSnake
+	 * pre:
+	 * pos: move snake
+	 * @param snake placed in matrix
+	 * @param player placed in matrix
+	 */
+	
 	private void moveAnotherSnake(List snake, User player) {
 		char snake_1 = snake.getSnakes();
 		List foundSnake = searchSnake(snake_1);
@@ -269,6 +499,15 @@ public class ListManagement {
 			}
 		}
 	}
+	
+	/**
+	 * moveAnotherLadder
+	 * pre:
+	 * pos: move ladder
+	 * @param ladder placed in matrix
+	 * @param player placed in matrix
+	 * @return boolean ladders_1
+	 */
 	
 	private boolean moveAnotherLadder(List ladder, User player) {
 		char ladder_1 = ladder.getLadders();
@@ -297,6 +536,14 @@ public class ListManagement {
 		}	
 	}
 	
+	/**
+	 * maxCells
+	 * pre:
+	 * pos: predetermine max cells of matrix
+	 * @param newPos new position of list
+	 * @return int newPos
+	 */
+	
 	public int maxCells(int newPos) {
 		int maxCell = start.getRowXcolumn();
 		if(newPos>maxCell) {
@@ -307,6 +554,17 @@ public class ListManagement {
 	
 
 	/* ------------------------------------------------------SHOW THE TABLES AND EACH POSITION----------------------------------------------------------*/
+	
+	/**
+	 * showColumnsPrincipal
+	 * pre:
+	 * pos: show principal columns of the list in console
+	 * @param row the rows to show
+	 * @param column the columns to show
+	 * @param temp the list to show the columns
+	 * @param i the i to show
+	 * @return int oddOrEven
+	 */
 	
 	private String showColumnsPrincipals(int column, int row,List temp, int i) {
 		int oddOrEven=row%2;
@@ -333,6 +591,17 @@ public class ListManagement {
 		}
 	}
 	
+	/**
+	 * showColumns
+	 * pre:
+	 * pos: show the columns of the list
+	 * @param column the columns to show
+	 * @param row the row to show
+	 * @param temp the list to show the columns
+	 * @param i the i to show
+	 * @return String table2
+	 */
+	
 	private String showColumns(int column, int row,List temp, int i) {
 		int oddOrEven=row%2;
 		
@@ -358,10 +627,28 @@ public class ListManagement {
 		}
 	}
 	
+	/**
+	 * showContentPrincipal
+	 * pre:
+	 * pos: show principal content of the list in console
+	 * @param row the rows to show
+	 * @param column the columns to show
+	 * @return String showColumsPrincipals
+	 */
+	
 	public String showContentPrincipal(int row, int column) {
 		table="";
 		return showColumnsPrincipals(column, row, start, 0);
 	}
+	
+	/**
+	 * showContent
+	 * pre:
+	 * pos: show the content of the list in console
+	 * @param row the rows to show
+	 * @param column the columns to show
+	 * @return String showColumns 
+	 */
 	
 	public String showContent(int row, int column) {
 		table2="";
