@@ -248,7 +248,6 @@ public class Menu {
 						System.out.println("Now, put your name: ");
 						String nickname = br.readLine();
 					
-						System.out.println(nickname+"-"+ listM.totalMovements(listM.searchUser(turn))*(row*column)+"-"+ column+"-"+ row+"-"+ snake+"-"+ ladders+"-"+ amountPlayers+"-"+ player);
 						table.addUser(nickname, listM.totalMovements(listM.searchUser(turn))*(row*column), column, row, snake, ladders, amountPlayers, player);// CALLING THE ADD OF THE BINARY TREE
 						System.out.println("Player: "+nickname+"\n" +"Score: " +listM.totalMovements(listM.searchUser(turn))*(row*column)+"\n");
 						showMenu();

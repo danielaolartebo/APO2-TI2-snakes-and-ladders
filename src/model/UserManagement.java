@@ -110,7 +110,7 @@ public class UserManagement {
 			msg = "There's no winner";
 			return msg;
 		}else {
-			msg = u.getNickname() + " " + u.getScore() + " " + u.getColumns() + " " + u.getRows() + " " + u.getSnakes() + " " + u.getLadders() + " " + u.getPlayers()+ " " + u.getSymbols();
+			msg = u.getNickname() + "-" + u.getScore() + "-" + u.getColumns() + "-" + u.getRows() + "-" + u.getSnakes() + "-" + u.getLadders() + "-" + u.getPlayers()+ "-" + u.getSymbols();
 			return msg;
 		}
 	}
