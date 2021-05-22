@@ -11,11 +11,7 @@ import model.ListManagement;
 import model.UserManagement;
 
 /**
- * /**
- * 
- * @author Santiago Gutierrez // Daniela Olarte
  * Menu Class
- * 
  */
 
 public class Menu {
@@ -124,14 +120,6 @@ public class Menu {
 		}
 	}
 	
-	/**
-	 * assign players
-	 * pre:
-	 * pos: players assigned to list
-	 * @param i spaces of the list
-	 * @param players of the list
-	 */
-	
 	private void assignPlayers(int i, String players) {
 		listM.assignSpaces(i);
 		listM.assignPlayer(players);
@@ -189,13 +177,6 @@ public class Menu {
 		}
 	}
 	
-	/**
-	 * put snakes 
-	 * pre:
-	 * pos: put end of snakes randomly in the game
-	 * @param rows, columns, snakes, type to put quantity of snakes
-	 */
-	
 	private void putSnakesDown(int rows, int columns, int snakes, int type) {
 		
 		if(snakes>0) {
@@ -214,13 +195,6 @@ public class Menu {
 			}
 		}
 	}
-	
-	/**
-	 * put snakes
-	 * pre:
-	 * pos: put beginning of snakes randomly in the game
-	 * @param rows, columns, snakes, type to put quantity of snakes
-	 */
 	
 	private void putSnakesUp(int rows, int columns, int snakes, int type) {
 		
@@ -241,13 +215,6 @@ public class Menu {
 		}
 	}
 	
-	/**
-	 * create user
-	 * pre:
-	 * pos: created user or users
-	 * @param users, amount of user 
-	 */
-	
 	private void createUser(String users, int amountUser) {
 		if(amountUser>=0){
 			listM.addPlayer(users.charAt(amountUser), amountUser);
@@ -256,28 +223,13 @@ public class Menu {
 		}
 	}
 	
-	/**
-	 * play
-	 * pre:
-	 * pos: make the action of the command
-	 * @param command the action to do
-	 * @throws IOException and ioexception
-	 */
-	
+
 	public void playGame(int row, int column) throws IOException {
 		String starting = br.readLine();
 		if(starting.isEmpty()) {
 			System.out.println(listM.showContentPrincipal(row, column));
 		}
 	}
-	
-	/**
-	 * continue playing
-	 * pre:
-	 * pos: make the action of the command
-	 * @param turn, amountPlayers, row, colum, snake, ladders, simul to command the action to do
-	 * @throws IOException and ioexception
-	 */
 	
 	public void continuePlaying(int turn, int amountPlayers, int row, int column, int snake, int ladders, boolean simul) throws IOException {
 		
@@ -295,9 +247,6 @@ public class Menu {
 						System.out.println("Player " +player+" has won!" );
 						System.out.println("Now, put your name: ");
 						String nickname = br.readLine();
-					
-						System.out.println(nickname+"-"+ listM.totalMovements(listM.searchUser(turn))*(row*column)+"-"+ column+"-"+ row+"-"+ snake+"-"+ ladders+"-"+ amountPlayers+"-"+ player);
-					
 					
 						table.addUser(nickname, listM.totalMovements(listM.searchUser(turn))*(row*column), column, row, snake, ladders, amountPlayers, player);// CALLING THE ADD OF THE BINARY TREE
 						System.out.println("Player: "+nickname+"\n" +"Score: " +listM.totalMovements(listM.searchUser(turn))*(row*column)+"\n");
@@ -323,7 +272,7 @@ public class Menu {
 			if(turn<amountPlayers) {
 				try {
 					Thread.sleep(2000);
-				} catch (InterruptedException e) {
+				}catch (InterruptedException e) {
 					e.printStackTrace();
 				}
 				pressEnter();
@@ -354,12 +303,6 @@ public class Menu {
 		}
 	}
 	
-	/**
-	 * press enter
-	 * pre:
-	 * pos: make line break
-	 */
-	
 	public void pressEnter() {
 		Robot robot;
 		try {
@@ -369,12 +312,6 @@ public class Menu {
 			e.printStackTrace();
 		} 
 	}
-	
-	/**
-	 * release enter
-	 * pre:
-	 * pos: release line break
-	 */
 	
 	public void releaseEnter() {
 		Robot robot;
